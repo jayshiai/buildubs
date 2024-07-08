@@ -43,16 +43,16 @@ export default async function IndexPage() {
 
   return (
     <>
-      <section className="space-y-6 relative flex pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
-        <div className="w-1/2 max-h-[50vh] flex relative justify-end items-center">
-          <div className=" w-full h-[45vw] -z-50 overflow-visible  ">
+      <section className="relative flex space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
+        <div className="relative flex max-h-[50vh] w-1/2 items-center justify-end">
+          <div className=" -z-50 h-[45vw] w-full overflow-visible  ">
             <Torus />
-            <div className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%] text-destructive font-bold text-6xl">
+            <div className="absolute left-1/2 top-1/2 -translate-x-[50%] -translate-y-[50%] text-6xl font-bold text-destructive">
               DubsUI
             </div>
           </div>
         </div>
-        <div className="w-1/2 flex items-center">
+        <div className="flex w-1/2 items-center">
           <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
             {/* <Link
             href={siteConfig.links.twitter}
@@ -61,13 +61,13 @@ export default async function IndexPage() {
           >
             Follow along on Twitter
           </Link> */}
-            <h1 className="font-heading text-right text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
+            <h1 className="text-right font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
               A Minimilistic Component Library
             </h1>
-            <p className="w-full leading-normal text-right text-muted-foreground sm:text-xl sm:leading-8">
+            <p className="w-full text-right leading-normal text-muted-foreground sm:text-xl sm:leading-8">
               Built for React on top of RadixUI.
             </p>
-            <div className="space-x-4 flex  justify-end w-full ">
+            <div className="flex w-full  justify-end space-x-4 ">
               <Link href="/docs" className={cn(buttonVariants({ size: "lg" }))}>
                 Documentation
               </Link>
@@ -137,7 +137,7 @@ export default async function IndexPage() {
                 <path d="M0 12C0 5.373 5.373 0 12 0c4.873 0 9.067 2.904 10.947 7.077l-15.87 15.87a11.981 11.981 0 0 1-1.935-1.099L14.99 12H12l-8.485 8.485A11.962 11.962 0 0 1 0 12Zm12.004 12L24 12.004C23.998 18.628 18.628 23.998 12.004 24Z" />
               </svg>
               <div className="space-y-2">
-                <h3 className="font-bold cursor-pointer">
+                <h3 className="cursor-pointer font-bold">
                   <EmulateKeydown keyToEmulate={"T"}>
                     Theme Editor
                   </EmulateKeydown>

@@ -21,7 +21,7 @@ export default async function MarketingLayout({
 }: MarketingLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="container max-w-[1600px] z-40 bg-background">
+      <header className="container z-40 max-w-[1600px] bg-background">
         <div className="flex h-20 items-center justify-between py-6">
           <MainNav items={marketingConfig.mainNav} />
           <nav>
@@ -31,13 +31,13 @@ export default async function MarketingLayout({
                   href="https://www.3dubs.in/"
                   className={cn(
                     buttonVariants({ variant: "default", size: "sm" }),
-                    "px-4 hover:bg-background hover:text-primary hover:border hover:border-primary"
+                    "px-4 hover:border hover:border-primary hover:bg-background hover:text-primary"
                   )}
                 >
                   3Dubs
                 </a>
               </HoverCardTrigger>
-              <HoverCardContent className="mt-4  p-1 border-white/50">
+              <HoverCardContent className="mt-4  border-white/50 p-1">
                 <PreviewCarousel />
               </HoverCardContent>
             </HoverCard>

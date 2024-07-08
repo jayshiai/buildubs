@@ -20,7 +20,7 @@ const PreviewCarousel = () => {
         align: "start",
         loop: true,
       }}
-      className="w-full h-full "
+      className="h-full w-full "
       plugins={[
         Autoplay({
           delay: 1000,
@@ -32,7 +32,7 @@ const PreviewCarousel = () => {
           <CarouselItem key={index}>
             <div className="">
               <Card>
-                <CardContent className="w-full h-full relative flex aspect-video items-center justify-center ">
+                <CardContent className="relative flex aspect-video h-full w-full items-center justify-center ">
                   {/* <span className="text-4xl font-semibold">{index + 1}</span> */}
 
                   <Image
