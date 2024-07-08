@@ -17,7 +17,7 @@ export default function DocsLayout({ children }: DocsLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-40 w-full border-b bg-background">
-        <div className="container max-w-[1600px] flex h-12 items-center space-x-4 sm:justify-between sm:space-x-0">
+        <div className="container flex h-12 max-w-[1600px] items-center space-x-4 sm:justify-between sm:space-x-0">
           <MainNav items={docsConfig.mainNav}>
             <DocsSidebarNav items={docsConfig.sidebarNav} />
           </MainNav>
@@ -39,7 +39,7 @@ export default function DocsLayout({ children }: DocsLayoutProps) {
           </div>
         </div>
       </header>
-      <div className="container flex-1 max-w-[1600px] ">{children}</div>
+      <div className="container max-w-[1600px] flex-1 ">{children}</div>
       <SiteFooter className="border-t" />
     </div>
   )

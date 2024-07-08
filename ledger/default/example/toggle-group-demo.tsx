@@ -10,9 +10,9 @@ export default function ToggleGroupDemo() {
 
   return (
     <ToggleGroup value={value} onValueChange={setValue} type="single">
-      <div value="a">A</div>
-      <div value="b">B</div>
-      <div value="c">C</div>
+      <div data-value="a">A</div>
+      <div data-value="b">B</div>
+      <div data-value="c">C</div>
     </ToggleGroup>
   )
 }

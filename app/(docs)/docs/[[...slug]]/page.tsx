@@ -92,7 +92,7 @@ export default async function DocPage({ params }: DocPageProps) {
 
   return (
     <main className="relative py-6 lg:gap-10 lg:py-10 xl:grid xl:grid-cols-[1fr_250px]">
-      <div className="mx-auto w-full max-w-[750px] min-w-0">
+      <div className="mx-auto w-full min-w-0 max-w-[750px]">
         <DocsPageHeader heading={doc.title} text={doc.description} />
         <Mdx code={doc.body.code} />
         <hr className="my-4 md:my-6" />

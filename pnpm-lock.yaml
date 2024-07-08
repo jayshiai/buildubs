@@ -156,14 +156,14 @@ importers:
         specifier: ^8.0.1
         version: 8.0.1
       contentlayer:
-        specifier: ^0.3.1
+        specifier: 0.3.1
         version: 0.3.1(esbuild@0.17.18)
       date-fns:
         specifier: ^2.29.3
         version: 2.29.3
       dubsui:
-        specifier: 0.4.8
-        version: 0.4.8(postcss@8.4.23)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        specifier: 0.4.91
+        version: 0.4.91(postcss@8.4.23)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       jotai:
         specifier: ^2.1.0
         version: 2.8.3(@types/react@18.0.15)(react@18.2.0)
@@ -177,7 +177,7 @@ importers:
         specifier: 4.22.1
         version: 4.22.1(next@13.5.6(@babel/core@7.21.4)(@opentelemetry/api@1.1.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(nodemailer@6.9.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       next-contentlayer:
-        specifier: ^0.3.1
+        specifier: 0.3.1
         version: 0.3.1(esbuild@0.17.18)(next@13.5.6(@babel/core@7.21.4)(@opentelemetry/api@1.1.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       next-themes:
         specifier: ^0.2.1
@@ -2080,8 +2080,8 @@ packages:
     resolution: {integrity: sha512-QM8q3zDe58hqUqjraQOmzZ1LIH9SWQJTlEKCH4kJ2oQvLZk7RbQXvtDM2XEq3fwkV9CCvvH4LA0AV+ogFsBM2Q==}
     engines: {node: '>=8'}
 
-  dubsui@0.4.8:
-    resolution: {integrity: sha512-Gqqenzr2b7mSVQrrWnbXrii2/ig+e3h07SXCkEJMavZ0lHvluufNss569q9FwWobIsgVfa4gPk4G4WpP9mVB3A==}
+  dubsui@0.4.91:
+    resolution: {integrity: sha512-KZ3v21bwxGZj0kws7dcIcF6j8WIfnnsj0pwPSkQujPA7gj5JAJ40KApKgpuzMalNyZDMQJlqtaYp7vRDnSEwvw==}
     peerDependencies:
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -4749,7 +4749,7 @@ snapshots:
       '@contentlayer/core': 0.3.1(esbuild@0.17.18)
       '@contentlayer/utils': 0.3.1
       chokidar: 3.5.3
-      fast-glob: 3.2.12
+      fast-glob: 3.3.2
       gray-matter: 4.0.3
       imagescript: 1.2.16
       micromatch: 4.0.5
@@ -6636,7 +6636,7 @@ snapshots:
     dependencies:
       is-obj: 2.0.0
 
-  dubsui@0.4.8(postcss@8.4.23)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+  dubsui@0.4.91(postcss@8.4.23)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       postcss-prefix-selector: 1.16.1(postcss@8.4.23)
       react: 18.2.0

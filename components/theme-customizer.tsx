@@ -259,31 +259,31 @@ const ThemeCustomizer: React.FC = () => {
         transform: open ? "none" : "translateX(105%)",
         boxShadow: open ? "var(--shadow-5)" : "var(--shadow-2)",
       }}
-      className="fixed right-[10px] bottom-[10px] rounded-xl  bg-background text-foreground border-2  shadow-lg hidden md:block"
+      className="fixed bottom-[10px] right-[10px] hidden  rounded-xl border-2 bg-background  text-foreground shadow-lg md:block"
     >
       <TooltipProvider>
         <TooltipRoot>
           <TooltipTrigger asChild>
             <div
               onClick={() => setOpen(false)}
-              className="absolute z-50 top-3 right-3 cursor-pointer"
+              className="absolute right-3 top-3 z-50 cursor-pointer"
             >
               <X />
             </div>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Press "T" to open and close the Theme Customizer</p>
+            <p>Press &quot;T&quot; to open and close the Theme Customizer</p>
           </TooltipContent>
         </TooltipRoot>
       </TooltipProvider>
-      <ScrollArea type="scroll" className="w-[375px] h-[90vh] z-10 px-2 ">
-        <div className="mt-4 ml-2">
-          <h1 className="text-foreground text-2xl font-bold">Theme</h1>
+      <ScrollArea type="scroll" className="z-10 h-[90vh] w-[375px] px-2 ">
+        <div className="ml-2 mt-4">
+          <h1 className="text-2xl font-bold text-foreground">Theme</h1>
           <div className="mt-3 gap-4 ">
             <h2 className=" text-foreground">Background</h2>
             <section className="ml-2">
               {" "}
-              <div className="flex items-center text-xs gap-2 my-2">
+              <div className="my-2 flex items-center gap-2 text-xs">
                 {BackgroundColors.values.map((color) => (
                   <label
                     key={color.name}
@@ -312,7 +312,7 @@ const ThemeCustomizer: React.FC = () => {
                   </label>
                 ))}
               </div>
-              <div className="flex items-center text-xs gap-2 my-2">
+              <div className="my-2 flex items-center gap-2 text-xs">
                 <h4>Custom:</h4>
                 <input
                   type="color"
@@ -330,7 +330,7 @@ const ThemeCustomizer: React.FC = () => {
             <h2 className=" text-foreground">Primary</h2>
             <section className="ml-2">
               {" "}
-              <div className="flex items-center text-xs gap-2 my-2">
+              <div className="my-2 flex items-center gap-2 text-xs">
                 {PrimaryColors.values.map((color) => (
                   <label
                     key={color.name}
@@ -359,7 +359,7 @@ const ThemeCustomizer: React.FC = () => {
                   </label>
                 ))}
               </div>
-              <div className="flex items-center text-xs gap-2 my-2">
+              <div className="my-2 flex items-center gap-2 text-xs">
                 <h4>Custom:</h4>
                 <input
                   type="color"
@@ -377,7 +377,7 @@ const ThemeCustomizer: React.FC = () => {
             <h2 className=" text-foreground">Secondary</h2>
             <section className="ml-2">
               {" "}
-              <div className="flex items-center text-xs gap-2 my-2">
+              <div className="my-2 flex items-center gap-2 text-xs">
                 {SecondaryColors.values.map((color) => (
                   <label
                     key={color.name}
@@ -406,7 +406,7 @@ const ThemeCustomizer: React.FC = () => {
                   </label>
                 ))}
               </div>
-              <div className="flex items-center text-xs gap-2 my-2">
+              <div className="my-2 flex items-center gap-2 text-xs">
                 <h4>Custom:</h4>
                 <input
                   type="color"
@@ -425,7 +425,7 @@ const ThemeCustomizer: React.FC = () => {
             <h2 className=" text-foreground">Border</h2>
             <section className="ml-2">
               {" "}
-              <div className="flex items-center text-xs gap-2 my-2">
+              <div className="my-2 flex items-center gap-2 text-xs">
                 {BorderColors.values.map((color) => (
                   <label
                     key={color.name}
@@ -454,7 +454,7 @@ const ThemeCustomizer: React.FC = () => {
                   </label>
                 ))}
               </div>
-              <div className="flex items-center text-xs gap-2 my-2">
+              <div className="my-2 flex items-center gap-2 text-xs">
                 <h4>Custom:</h4>
                 <input
                   type="color"
@@ -471,8 +471,8 @@ const ThemeCustomizer: React.FC = () => {
 
           <div>
             <h1 className="text-foreground">Mode</h1>
-            <div className="flex gap-4 w-full">
-              <div className=" w-[100px] relative  border rounded-md py-2 flex items-center justify-center">
+            <div className="flex w-full gap-4">
+              <div className=" relative flex  w-[100px] items-center justify-center rounded-md border py-2">
                 <Icons.sun className="mr-2 h-4 w-4" />
                 Light
                 <input
@@ -485,7 +485,7 @@ const ThemeCustomizer: React.FC = () => {
                   onClick={() => setNextTheme("light")}
                 />
               </div>
-              <div className=" w-[100px] relative flex items-center justify-center border rounded-md py-2">
+              <div className=" relative flex w-[100px] items-center justify-center rounded-md border py-2">
                 <Icons.moon className="mr-2 h-4 w-4" />
                 Dark
                 <input
@@ -507,7 +507,7 @@ const ThemeCustomizer: React.FC = () => {
             variant={"default"}
             text="Copy Theme"
             clickedText="Copied!"
-            className="mt-6 ml-2 w-[115px]"
+            className="ml-2 mt-6 w-[115px]"
           />
 
           <SaveTheme
@@ -515,19 +515,19 @@ const ThemeCustomizer: React.FC = () => {
             variant={"outline"}
             text="Reset Theme"
             clickedText="Theme Reset!"
-            className="mt-6 ml-2 w-[115px]"
+            className="ml-2 mt-6 w-[115px]"
           />
         </div>
         <AccordionRoot type="single" collapsible>
           <AccordionItem value="advanced">
             <AccordionTrigger>
               Advanced Settings
-              <ChevronDown className="w-5 h-5 ml-2" />
+              <ChevronDown className="ml-2 h-5 w-5" />
             </AccordionTrigger>
             <AccordionContent>
-              <div className="grid grid-cols-3 gap-3 gap-y-6 whitespace-break-spaces text-center p-4 text-sm place-items-center">
+              <div className="grid grid-cols-3 place-items-center gap-3 gap-y-6 whitespace-break-spaces p-4 text-center text-sm">
                 <div className=" ">
-                  <label className="flex flex-col-reverse w-fit items-center text-xs">
+                  <label className="flex w-fit flex-col-reverse items-center text-xs">
                     Background
                     <input
                       type="color"
@@ -539,7 +539,7 @@ const ThemeCustomizer: React.FC = () => {
                   </label>
                 </div>
                 <div className="">
-                  <label className="flex flex-col-reverse w-fit items-center text-xs">
+                  <label className="flex w-fit flex-col-reverse items-center text-xs">
                     Foreground
                     <input
                       type="color"
@@ -551,7 +551,7 @@ const ThemeCustomizer: React.FC = () => {
                   </label>
                 </div>
                 <div className="">
-                  <label className="flex flex-col-reverse w-fit items-center text-xs">
+                  <label className="flex w-fit flex-col-reverse items-center text-xs">
                     Border
                     <input
                       type="color"
@@ -563,7 +563,7 @@ const ThemeCustomizer: React.FC = () => {
                   </label>
                 </div>
                 <div className="">
-                  <label className="flex flex-col-reverse w-fit items-center text-xs">
+                  <label className="flex w-fit flex-col-reverse items-center text-xs">
                     Primary
                     <input
                       type="color"
@@ -575,7 +575,7 @@ const ThemeCustomizer: React.FC = () => {
                   </label>
                 </div>
                 <div className="">
-                  <label className="flex flex-col-reverse w-fit items-center text-xs">
+                  <label className="flex w-fit flex-col-reverse items-center text-xs">
                     Primary Foreground
                     <input
                       type="color"
@@ -587,7 +587,7 @@ const ThemeCustomizer: React.FC = () => {
                   </label>
                 </div>
                 <div className="">
-                  <label className="flex flex-col-reverse w-fit items-center text-xs">
+                  <label className="flex w-fit flex-col-reverse items-center text-xs">
                     Input
                     <input
                       type="color"
@@ -599,7 +599,7 @@ const ThemeCustomizer: React.FC = () => {
                   </label>
                 </div>
                 <div className="">
-                  <label className="flex flex-col-reverse w-fit items-center text-xs">
+                  <label className="flex w-fit flex-col-reverse items-center text-xs">
                     Secondary
                     <input
                       type="color"
@@ -611,7 +611,7 @@ const ThemeCustomizer: React.FC = () => {
                   </label>
                 </div>
                 <div className="">
-                  <label className="flex flex-col-reverse w-fit items-center text-xs">
+                  <label className="flex w-fit flex-col-reverse items-center text-xs">
                     Secondary Foreground
                     <input
                       type="color"
@@ -623,7 +623,7 @@ const ThemeCustomizer: React.FC = () => {
                   </label>
                 </div>
                 <div>
-                  <label className="flex flex-col-reverse w-fit items-center text-xs">
+                  <label className="flex w-fit flex-col-reverse items-center text-xs">
                     Ring
                     <input
                       type="color"
@@ -635,7 +635,7 @@ const ThemeCustomizer: React.FC = () => {
                   </label>
                 </div>
                 <div className="">
-                  <label className="flex flex-col-reverse w-fit items-center text-xs">
+                  <label className="flex w-fit flex-col-reverse items-center text-xs">
                     Popover
                     <input
                       type="color"
@@ -647,7 +647,7 @@ const ThemeCustomizer: React.FC = () => {
                   </label>
                 </div>
                 <div className="">
-                  <label className="flex flex-col-reverse w-fit items-center text-xs">
+                  <label className="flex w-fit flex-col-reverse items-center text-xs">
                     Popover Foreground
                     <input
                       type="color"
@@ -659,7 +659,7 @@ const ThemeCustomizer: React.FC = () => {
                   </label>
                 </div>
                 <div className="">
-                  <label className="flex flex-col-reverse w-fit items-center text-xs">
+                  <label className="flex w-fit flex-col-reverse items-center text-xs">
                     Card
                     <input
                       type="color"
@@ -672,7 +672,7 @@ const ThemeCustomizer: React.FC = () => {
                 </div>
 
                 <div className="">
-                  <label className="flex flex-col-reverse w-fit items-center text-xs">
+                  <label className="flex w-fit flex-col-reverse items-center text-xs">
                     Muted
                     <input
                       type="color"
@@ -684,7 +684,7 @@ const ThemeCustomizer: React.FC = () => {
                   </label>
                 </div>
                 <div className="">
-                  <label className="flex flex-col-reverse w-fit items-center text-xs">
+                  <label className="flex w-fit flex-col-reverse items-center text-xs">
                     Muted Foreground
                     <input
                       type="color"
@@ -696,7 +696,7 @@ const ThemeCustomizer: React.FC = () => {
                   </label>
                 </div>
                 <div className="">
-                  <label className="flex flex-col-reverse w-fit items-center text-xs">
+                  <label className="flex w-fit flex-col-reverse items-center text-xs">
                     Card Foreground
                     <input
                       type="color"
@@ -708,7 +708,7 @@ const ThemeCustomizer: React.FC = () => {
                   </label>
                 </div>
                 <div className="">
-                  <label className="flex flex-col-reverse w-fit items-center text-xs">
+                  <label className="flex w-fit flex-col-reverse items-center text-xs">
                     Accent
                     <input
                       type="color"
@@ -720,7 +720,7 @@ const ThemeCustomizer: React.FC = () => {
                   </label>
                 </div>
                 <div className="">
-                  <label className="flex flex-col-reverse w-fit items-center text-xs">
+                  <label className="flex w-fit flex-col-reverse items-center text-xs">
                     Accent Foreground
                     <input
                       type="color"
@@ -733,7 +733,7 @@ const ThemeCustomizer: React.FC = () => {
                 </div>
 
                 <div className="">
-                  <label className="flex flex-col-reverse w-fit items-center text-xs">
+                  <label className="flex w-fit flex-col-reverse items-center text-xs">
                     Destructive
                     <input
                       type="color"
@@ -747,7 +747,7 @@ const ThemeCustomizer: React.FC = () => {
 
                 <div></div>
                 <div className="">
-                  <label className="flex flex-col-reverse w-fit items-center text-xs">
+                  <label className="flex w-fit flex-col-reverse items-center text-xs">
                     Destructive Foreground
                     <input
                       type="color"

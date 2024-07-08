@@ -25,7 +25,7 @@ import {
   User,
   Webhook,
   X,
-  type Icon as LucideIcon,
+  type LucideIcon,
 } from "lucide-react"
 
 export type Icon = LucideIcon

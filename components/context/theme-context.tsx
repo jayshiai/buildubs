@@ -97,16 +97,23 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const getInitialTheme = (): Theme => {
     let storedTheme
 
-    if (resolvedTheme === "dark") {
-      storedTheme = localStorage.getItem("customDarkTheme")
-    } else {
-      storedTheme = localStorage.getItem("customLightTheme")
+    if (typeof window !== "undefined") {
+      if (resolvedTheme === "dark") {
+        storedTheme = localStorage.getItem("customDarkTheme")
+      } else {
+        storedTheme = localStorage.getItem("customLightTheme")
+      }
     }
+
     if (storedTheme) {
-      return JSON.parse(storedTheme) as Theme
-    } else {
-      return resolvedTheme === "dark" ? darkTheme : lightTheme
+      try {
+        return JSON.parse(storedTheme) as Theme
+      } catch (error) {
+        console.error("Error parsing stored theme:", error)
+      }
     }
+
+    return resolvedTheme === "dark" ? darkTheme : lightTheme
   }
 
   const [theme, setTheme] = useState<Theme>(getInitialTheme)
