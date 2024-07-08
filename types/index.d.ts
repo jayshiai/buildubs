@@ -33,6 +33,8 @@ export type SiteConfig = {
   url: string
   ogImage: string
   links: {
+    dubsui: string
+    repo: string
     twitter: string
     github: string
   }
