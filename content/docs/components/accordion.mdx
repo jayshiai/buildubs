@@ -1,0 +1,81 @@
+---
+title: Accordion
+description: A vertically stacked set of interactive headings that each reveal an associated section of content.
+component: true
+---
+
+<ComponentPreview
+  name="accordion-demo"
+  className="[&_.preview>[data-orientation=vertical]]:sm:max-w-[70%]"
+  description="An accordion with items"
+/>
+
+## Usage
+
+- The Accordion component takes in `items` prop and renders Accordion based on it.
+### Interface for AccordionProps
+ ```tsx
+ interface AccordionItemProps {
+  title: string;
+  content: React.ReactNode;
+}
+
+interface AccordionProps {
+  className?: string;
+  items: AccordionItemProps[];
+}
+ ```
+- The `items` prop is an array of objects with `title` and `content` properties.
+- The `title` prop is a string that represents the title of the accordion item.
+- The `content` prop is a ReactNode that represents the content of the accordion item. Which means you can pass in `string` or even a `React Component` and the `Accordion` will automatically handle it.
+
+### Example of `items` prop
+```tsx
+ const data = [
+    {
+      title: "What is DubsUI?",
+      content: `DubsUI is a component library for React.js
+         that provides a set of reusable components 
+         for building web applications.`,
+    },
+    {
+      title: "Who maintains DubsUI?",
+      content: (
+        <p>
+          <a
+            className=" text-blue-600 underline"
+            href="https://github.com/jayshiai"
+          >
+            @jayshiai
+          </a>{" "}
+          along with 3Dubs under DevsTomorrow maintain DubsUI.
+        </p>
+      ),
+    },
+    {
+      title: "What does DubsUI stand out for?",
+      content: `DubsUI aims to provide a more data 
+        focused approach to building web applications, 
+        where user provides data and DubsUI takes
+         care of the rest. However it also 
+         alows for more granular control on 
+         the design of components.`,
+    },
+    {
+      title: "What insprised DubsUI?",
+      content: `DubsUI is mainly built on top of 
+        Radix UI and derives some inspiration 
+        from shandcnUI.`,
+    },
+  ]
+```
+## Customizable Design
+More granular components provide you with more control over the design of the Accordion component. You can customize the design of the Accordion component by using the following sub-components:
+
+<ComponentPreview
+  name="accordion-granular"
+  className="[&_.preview>[data-orientation=vertical]]:sm:max-w-[70%]"
+  description="An accordion with items"
+/>
+- Style of every sub-component of the Accordion component can be customized using the `className` prop. 
+- Pass in a `CSS class` or use `Tailwind CSS` utility classes to style the Accordion component.

@@ -1,0 +1,36 @@
+---
+title: Alert Dialog
+description: An image element with a fallback for representing the user.
+component: true
+---
+
+<ComponentPreview
+  name="avatar-demo"
+  description="An accordion with items"
+
+/>
+
+## Usage
+- `Avatar` component takes in `className`, `src`, and `fallback` props.
+- `className` prop is used to style the Avatar component.
+- `src` prop is used to pass the image URL.
+- `fallback` prop is used to pass the fallback text for the image.
+### Interface for AvatarProps
+```tsx
+interface AvatarProps
+  extends React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root> {
+  className?: string;
+  fallback?: string;
+  src?: string;
+}
+```
+
+## Customizable Design
+More granular components provide you with more control over the design of the Avatar component. You can customize the design of the Avatar component by using the following sub-components:
+<ComponentPreview
+  name="avatar-granular"
+  description="An accordion with items"
+  />
+
+- Style of every sub-component of the Avatar component can be customized using the `className` prop.
+- Pass in a `CSS class` or use `Tailwind CSS` utility classes to style the Avatar component. 

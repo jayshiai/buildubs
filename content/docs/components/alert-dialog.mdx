@@ -1,0 +1,47 @@
+---
+title: Alert Dialog
+description: A modal dialog that interrupts the user with important content and expects a response.
+component: true
+---
+
+<ComponentPreview
+  name="alert-dialog-demo"
+  description="An accordion with items"
+
+/>
+
+
+## Usage
+- Alert Dialog takes multiple `props` which can be passed in as `destructure object` as show in above example.
+- `className` prop is used to style the trigger of Alert Dialog component.
+### Interface for AlertDialogProps
+```tsx
+import { buttonVariants } from "dubsui";
+import { type VariantProps } from "class-variance-authority";
+
+interface AlertDialogProps {
+  className?: string;
+  cancelVariant?: VariantProps<typeof buttonVariants>["variant"]; // "link" | "default" | "destructive" | "outline" | "secondary" | "ghost" | null | undefined
+  actionVariant?: VariantProps<typeof buttonVariants>["variant"]; // "default" | "destructive" | "outline" | "secondary" | "ghost" | "link" | null | undefined
+  buttonSize?: VariantProps<typeof buttonVariants>["size"];  // "default" | "sm" | "lg" | "icon" | null | undefined
+  dialogTitle?: string;
+  dialogDescription?: string;
+  cancelText?: string;
+  actionText?: string;
+  onCancle?: () => void;
+  onAction?: () => void;
+  trigger?: React.ReactNode;
+}
+```
+- You can find more information about `cancleVariant`, `actionVariant` and  `buttonSize` in [Button](/docs/components/button) component as `buttonVariants`.
+
+## Customizable Design
+More granular components provide you with more control over the design of the Alert Dialog component. You can customize the design of the Alert Dialog component by using the following sub-components:
+<ComponentPreview
+  name="alert-dialog-granular"
+  description="An accordion with items"
+
+/>
+
+- Style of every sub-component  can be customized using the `className` prop. 
+- Pass in a `CSS class`, use `Tailwind CSS` utility classes or use `inline-style` to style the sub-component.

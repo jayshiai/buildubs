@@ -1,0 +1,31 @@
+---
+title: Collapsible
+description: An interactive component which expands/collapses a panel.
+component: true
+---
+<ComponentPreview
+  name="collapsible-demo"
+/>
+
+## Usage 
+- `Collapsible` component takes in `title` and `show` props.
+- `Children` of `Collapsible` component are rendered inside collapsible panel.
+- `title` prop is the title of the collapsible panel. It is a required prop. It accepts `ReactNode` so it can be a `string` or even a `React Component`.
+- `show` prop takes in number. It decides how many items of collapsible are shown in an _**uncollapsed**_ state. Default value is `0`. It is an optional prop. It can take `negative` values as well which mean that number of component will be hidden in uncollapsed state.
+
+### Interface for CollapsibleProps
+```tsx
+interface CollapsibleProps {
+  children: React.ReactNode;
+  title: React.ReactNode;
+  show?: number;
+}
+```
+
+## Customizable Design 
+More granular components provide you with more control over the design of the `Collapsible` component. You can customize the design of the `Collapsible` component by using the following sub-components:
+<ComponentPreview
+  name="collapsible-granular"
+/>
+- Style of every sub-component of the Avatar component can be customized using the `className` prop.
+- Pass in a `CSS class` or use `Tailwind CSS` utility classes to style the Avatar component. 

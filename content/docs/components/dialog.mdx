@@ -1,0 +1,33 @@
+---
+title: Dialog
+description: A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.
+component: true
+---
+
+<ComponentPreview
+  name="dialog-demo"
+/>
+
+## Usage 
+- `Dialog` component takes in props `trigger`, `title` and `description`.
+- `trigger` prop is the component that triggers the dialog to open. It is required. I can be any `React Component` or even a simple `string`.
+- `title` and `description` are just the text that is displayed in the dialog. They are optional.
+### Interface for DialogProps
+```tsx
+interface DialogProps {
+    trigger: React.ReactNode;
+    title?: string;
+    description?: string;
+    children?: React.ReactNode;
+}
+```
+
+## Customizable Design
+More granular components provide you with more control over the design of the `Dialog` component. You can customize the design of the `Dialog` component by using the following sub-components:
+
+<ComponentPreview
+  name="dialog-granular"
+/>
+
+- Style of every sub-component of the Dialog component can be customized using the `className` prop.
+- Pass in a `CSS class` or use `Tailwind CSS` utility classes to style the Dialog component.

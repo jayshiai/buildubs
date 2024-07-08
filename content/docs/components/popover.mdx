@@ -1,0 +1,32 @@
+---
+title: Popover
+description: Displays rich content in a portal, triggered by a button.
+component: true
+---
+
+<ComponentPreview name="popover-demo" />
+
+## Usage
+
+- `Popover` component takes in `trigger` prop.
+- `trigger` prop is the component that triggers the popover to open. It is required. It can be any `React Component` or even a simple `string`.
+- `Children` of `Popover` component are rendered inside the popover.
+
+### Interface for PopoverProps
+```tsx
+interface PopoverProps {
+  trigger: React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
+}
+```
+
+## Customizable Design
+
+More granular components provide you with more control over the design of the `Popover` component. You can customize the design of the `Popover` component by using the following sub-components:
+
+<ComponentPreview
+  name="popover-granular"
+/>
+- Style of every sub-component of the Popover component can be customized using the `className` prop.
+- Pass in a `CSS class` or use `Tailwind CSS` utility classes to style the Popover component. 

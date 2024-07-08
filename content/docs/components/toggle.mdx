@@ -1,0 +1,54 @@
+---
+title: Toggle
+description: A two-state button that can be either on or off.
+component: true
+---
+
+<ComponentPreview name="toggle-demo" />
+
+## Usage
+- `Toggle` component takes in `variant`, `size` and `disabled` props along with `className`.
+
+
+<ComponentPreview name="toggle-variants" />
+
+## Variants
+
+### Default
+```tsx
+<Toggle>Default</Toggle>
+```
+
+### Outline
+```tsx
+<Toggle variant="outline">Outline</Toggle>
+```
+
+## Sizes
+
+### Normal
+```tsx
+<Toggle>Normal</Toggle>
+```
+
+### Small
+```tsx
+<Toggle size="sm">Small</Toggle>
+```
+
+### Large
+```tsx
+<Toggle size="lg">Large</Toggle>
+```
+
+## Disabled
+```tsx
+<Toggle disabled>Disabled</Toggle>
+```
+
+## Custom Component
+```tsx
+<Toggle>
+  <Bold className="h-4 w-4 mr-2" /> Bold
+</Toggle>
+```

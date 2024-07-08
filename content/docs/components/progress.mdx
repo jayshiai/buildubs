@@ -1,0 +1,33 @@
+---
+title: Progress Bar
+description: Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
+component: true
+---
+
+<ComponentPreview name="progress-demo" />
+
+## Usage
+- `Progress` component takes in `value` prop.
+- `value` prop is the percentage value of the progress bar. It is a required prop. It accepts `number` value between `0` and `100`.
+- You can use `useState` hook in concert with `useEffect` hook to update the value of the progress bar.
+
+### Example of updating progress
+```tsx {2, 5,15}
+import { Progress } from ".dubsui;
+import { useState, useEffect } from "react";
+
+const Primary = () => {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress((prev) => (prev + 1) % 101);
+    }, 100);
+    if (progress === 100) clearInterval(interval);
+    return () => clearInterval(interval);
+  }, []);
+
+  return <Progress value={progress} />;
+};
+```  
+

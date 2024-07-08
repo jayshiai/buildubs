@@ -1,0 +1,32 @@
+---
+title: Tooltip
+description: A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.
+component: true
+---
+
+<ComponentPreview name="tooltip-demo" />
+
+## Usage
+- `Tooltip` component takes in `trigger` prop.
+- `trigger` prop is the element that triggers the tooltip. It is a required prop. It can be a string or a React component.
+- `Children` of `Tooltip` component are rendered inside the tooltip.
+
+### Interface for TooltipProps
+```tsx
+interface TooltipProps {
+  trigger: React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
+}
+```
+
+## Customizable Design
+
+More granular components provide you with more control over the design of the `Tooltip` component. You can customize the design of the `Tooltip` component by using the following sub-components:
+
+<ComponentPreview
+  name="tooltip-granular"
+/>
+
+- Style of every sub-component of the Tooltip component can be customized using the `className` prop.
+- Pass in a `CSS class` or use `Tailwind CSS` utility classes to style the Tooltip component.

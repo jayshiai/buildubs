@@ -1,0 +1,65 @@
+---
+title: Breadcrumb
+description: Displays the path to the current resource using a hierarchy of links.
+component: true
+---
+
+<ComponentPreview
+  name="breadcrumb-demo"
+/>
+
+## Usage
+- `Breadcrumb` component takes in `items` prop and renders Breadcrumbs based on it.
+- Nested `Items` are rendered as `Dropdown Menu` which enables longer Breadcrumbs to be collapsible.
+- `Breadcrumb` also takes in `separator` prop which allows you to pass in custom separator.
+- `linkComponent` prop supports passing custom link components like **NextJS** `<Link />`. 
+### Interface for BreadcrumbProps
+```tsx
+interface BreadcrumbItemType {
+    label: string;
+    href?: string;
+    items?: BreadcrumbItemType[];
+}
+
+interface BreadcrumbProps {
+    className?: string;
+    items: BreadcrumbItemType[];
+    linkComponent?: React.ElementType;
+    separator?: React.ReactNode;
+}
+```
+
+### Example of `items` prop
+```tsx
+ const breadcrumbItems: BreadcrumbItemType[] = [
+      { href: "/", label: "Home" },
+      { href: "/docs", label: "Docs" },
+      {
+          label: "Components",
+          items: [
+              { href: "/docs/components", label: "Components" },
+              { href: "/docs/components/breadcrumb", label: "Breadcrumb" },
+              { href: "/docs/components/button", label: "Button" },
+              {
+                  href: "/docs/components/dropdown-menu", label: "Dropdown Menu",
+                  items: [
+                      { href: "/docs/components/alert-dialog", label: "Alert Dialog" },
+                      { href: "/docs/components/tooltip", label: "Tooltip" },
+                      { href: "/docs/components/popover", label: "Popover" },
+                  ]
+              },
+          ]
+      },
+      { label: "Breadcrumb" }
+    ];
+```
+
+## Customizable Design
+More granular components provide you with more control over the design of the `Breadcrumb` component. You can customize the design of the `Breadcrumb` component by using the following sub-components:
+
+<ComponentPreview
+  name="breadcrumb-granular"
+/>
+
+- Style of every sub-component of the Avatar component can be customized using the `className` prop.
+- Pass in a `CSS class` or use `Tailwind CSS` utility classes to style the Avatar component. 

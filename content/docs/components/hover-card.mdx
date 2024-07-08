@@ -1,0 +1,33 @@
+---
+title: Hover Card
+description: For sighted users to preview content available behind a link.
+component: true
+---
+
+<ComponentPreview
+  name="hover-card-demo"
+/>
+
+## Usage
+- `HoverCard` component takes in `trigger` prop.
+- `trigger` prop is the component that triggers the hover card to open. It is required. It can be any `React Component` or even a simple `string`.
+- `Children` of `HoverCard` component are rendered as the hover card.
+
+### Interface for HoverCardProps
+```tsx
+interface HoverCardProps {
+  trigger: React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
+}
+```
+
+## Customizable Design
+More granular components provide you with more control over the design of the `HoverCard` component. You can customize the design of the `HoverCard` component by using the following sub-components:
+
+<ComponentPreview
+  name="hover-card-granular"
+  />
+- Style of every sub-component of the HoverCard component can be customized using the `className` prop.
+- Pass in a `CSS class` or use `Tailwind CSS` utility classes to style the HoverCard component.
+

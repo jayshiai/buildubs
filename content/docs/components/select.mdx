@@ -1,0 +1,79 @@
+---
+title: Select
+description: Displays a list of options for the user to pick from—triggered by a button.
+component: true
+---
+
+<ComponentPreview name="select-demo" />
+
+## Usage
+- `Select` component takes in `items` and `placeholder` props.
+- `className` prop is used to style the "trigger" part of Select.
+- `placeholder` renders the placeholder value of Select. It is a required prop. It accepts `string` value.
+- `items` prop is an array of objects. It contains:
+    - `label` prop which is the label of the option.
+    - `value` prop which is the value of the option.
+    - `disabled` prop which is a boolean value. If `true`, the option will be disabled i.e. It will be visible but not clickable.
+- `Select` also allows for grouping of options. To group options, insted of passing `value` and `label` pass `items` and `label`, where `label` is the group label and `items` is an array of options.
+- Refer to example below to see how to group options.
+### Interface for SelectProps
+```tsx
+interface SelectItemType {
+  value?: string;
+  label: string;
+  items?: SelectItemType[];
+  disabled?: boolean;
+}
+
+interface SelectProps extends SelectPrimitive.SelectProps {
+  items: SelectItemType[];
+  placeholder: string;
+  className?: string;
+}
+```
+
+### Example of `items` prop
+```tsx
+ const items = [
+    {
+      label: "Fruits",
+      items: [
+        { value: "apple", label: "Apple" },
+        { value: "banana", label: "Banana" },
+        { value: "blueberry", label: "Blueberry" },
+        { value: "grapes", label: "Grapes" },
+        { value: "pineapple", label: "Pineapple" },
+      ],
+    },
+    {
+      label: "Vegetables",
+      items: [
+        { value: "aubergine", label: "Aubergine" },
+        { value: "broccoli", label: "Broccoli" },
+        { value: "carrot", label: "Carrot", disabled: true },
+        { value: "courgette", label: "Courgette" },
+        { value: "leek", label: "Leek" },
+      ],
+    },
+    {
+      label: "Meat",
+      items: [
+        { value: "beef", label: "Beef" },
+        { value: "chicken", label: "Chicken" },
+        { value: "lamb", label: "Lamb" },
+        { value: "pork", label: "Pork" },
+      ],
+    },
+  ];
+```
+- This will render a Select component with 3 groups of options: Fruits, Vegetables, and Meat. Each group will have a list of options.
+
+## Customizable Design
+More granular components provide you with more control over the design of the `Select` component. You can customize the design of the `Select` component by using the following sub-components:
+
+<ComponentPreview
+  name="select-granular"
+/>
+
+- Style of every sub-component of the Select component can be customized using the `className` prop.
+- Pass in a `CSS class` or use `Tailwind CSS` utility classes to style the Select component.

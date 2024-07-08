@@ -1,0 +1,83 @@
+---
+title: Button
+description: Displays a button or a component that looks like a button.
+component: true
+---
+
+<ComponentPreview
+  name="button-demo"
+/>
+
+## Usage 
+- `Button` has props `varaint` and `size`.
+- `variant` prop decides the in-built style of the component.
+- However the styling can be overridden using `className` props
+
+
+<ComponentPreview
+  name="button-variants"
+/>
+
+## Variants
+
+
+### Default
+```tsx
+<Button>Primary</Button>
+```
+### Ghost
+```tsx
+ <Button variant="ghost">Ghost</Button>
+```
+### Link
+```tsx
+<Button variant="link">Link</Button>
+```
+### Secondary
+```tsx
+<Button variant="secondary">Secondary</Button>
+```
+### Outline
+```tsx
+<Button variant="outline"> Outline </Button>
+```
+### Destructive
+```tsx
+<Button variant="destructive">Destructive</Button>
+```
+### Icon Size
+```tsx
+<Button variant="outline" size="icon">
+  <ChevronRight className="h-4 w-4" />
+</Button>
+```
+## Sizes
+### Small
+```tsx
+<Button variant="outline" size="sm">
+  Small
+</Button>
+```
+### Large
+```tsx
+<Button variant="outline" size="lg">
+  Large
+</Button>
+```
+## Additional Functionality
+### Disabled
+```tsx
+<Button disabled>
+  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+  Please wait
+</Button>
+```
+### Custom Component
+```tsx
+<Button asChild>
+  <a href="/login">Login</a>
+</Button>
+```
+## Customizable Design
+- Style of every sub-component of the Avatar component can be customized using the `className` prop.
+- Pass in a `CSS class` or use `Tailwind CSS` utility classes to style the Avatar component. 

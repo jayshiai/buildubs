@@ -1,0 +1,131 @@
+---
+title: Context Menu
+description: Displays a menu located at the pointer, triggered by a right click or a long press.
+component: true
+---
+
+<ComponentPreview
+  name="context-menu-demo"
+/>
+
+## Usage
+- `ContextMenu` component takes in `items` prop and renders a Context Menu based on it.
+- Wrap the area where you want to allow the user to `Right-Click` or `Long Press` to display the *Menu* with `ContextMenu` component. This area can be anything - an empty div or even other React Components.
+
+### Interface for ContextMenuProps
+```tsx
+interface ContextMenuItemType {
+  label: string;
+  href?: string;
+  icon?: React.ReactNode;
+  onClick?: () => void;
+  items?: ContextMenuItemType[];
+}
+
+interface ContextMenuProps {
+  children: React.ReactNode;
+  className?: string;
+  items: ContextMenuItemType[];
+}
+```
+
+### Example of `items` prop
+```tsx
+ const items: ContextMenuItemType[] = [
+    { label: "Home", href: "/", icon: <Cloud className="mr-2 h-4 w-4" /> },
+    {
+      label: "Products",
+      icon: <CreditCard className="mr-2 h-4 w-4" />,
+      items: [
+        {
+          label: "Electronics",
+          href: "/products/electronics",
+          icon: <Github className="mr-2 h-4 w-4" />,
+        },
+        {
+          label: "Clothing",
+          href: "/products/clothing",
+          icon: <Keyboard className="mr-2 h-4 w-4" />,
+        },
+        {
+          label: "More Categories",
+          icon: <LifeBuoy className="mr-2 h-4 w-4" />,
+          items: [
+            {
+              label: "Books",
+              href: "/products/books",
+              icon: <MessageSquare className="mr-2 h-4 w-4" />,
+            },
+            {
+              label: "Furniture",
+              href: "/products/furniture",
+              icon: <Mail className="mr-2 h-4 w-4" />,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      label: "About Us",
+      href: "/about",
+      icon: <User className="mr-2 h-4 w-4" />,
+    },
+    {
+      label: "Contact",
+      href: "/contact",
+      icon: <Mail className="mr-2 h-4 w-4" />,
+    },
+    {
+      label: "Settings",
+      icon: <Settings className="mr-2 h-4 w-4" />,
+      items: [
+        {
+          label: "Profile",
+          href: "/settings/profile",
+          icon: <User className="mr-2 h-4 w-4" />,
+        },
+        {
+          label: "Preferences",
+          icon: <UserPlus className="mr-2 h-4 w-4" />,
+          items: [
+            {
+              label: "Language",
+              href: "/settings/preferences/language",
+              icon: <Cloud className="mr-2 h-4 w-4" />,
+            },
+            {
+              label: "Theme",
+              href: "/settings/preferences/theme",
+              icon: <LifeBuoy className="mr-2 h-4 w-4" />,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      label: "Actions",
+      icon: <PlusCircle className="mr-2 h-4 w-4" />,
+      items: [
+        {
+          label: "Action 1",
+          onClick: () => alert("Action 1"),
+          icon: <Plus className="mr-2 h-4 w-4" />,
+        },
+        {
+          label: "Action 2",
+          onClick: () => alert("Action 2"),
+          icon: <Plus className="mr-2 h-4 w-4" />,
+        },
+      ],
+    },
+  ]
+```
+
+## Customizable Design
+More granular components provide you with more control over the design of the `ContextMenu` component. You can customize the design of the `ContextMenu` component by using the following sub-components:
+
+<ComponentPreview
+  name="context-menu-granular"
+  />
+- Style of every sub-component of the ContextMenu component can be customized using the `className` prop.
+- Pass in a `CSS class` or use `Tailwind CSS` utility classes to style the ContextMenu component.
