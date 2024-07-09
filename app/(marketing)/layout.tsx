@@ -31,10 +31,10 @@ export default async function MarketingLayout({
                   href="https://www.3dubs.in/"
                   className={cn(
                     buttonVariants({ variant: "default", size: "sm" }),
-                    "px-4 hover:border hover:border-primary hover:bg-background hover:text-primary"
+                    "ave px-4 hover:border hover:border-primary hover:bg-background hover:text-primary"
                   )}
                 >
-                  3Dubs
+                  3DUBS
                 </a>
               </HoverCardTrigger>
               <HoverCardContent className="mt-4  border-white/50 p-1">

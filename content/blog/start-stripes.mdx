@@ -1,219 +1,102 @@
 ---
-title: Deploying Next.js Apps
-description: How to deploy your Next.js apps on Vercel.
-image: /images/blog/blog-post-3.jpg
-date: "2023-01-02"
+title: "Stars, Stripes, and Code"
+description: "3DUBS' Odyssey at the ISRO SIF Hackathon!"
+image: /images/blog/sif.png
+date: "2024-02-10"
 authors:
-  - shadcn
+  - jayshiai
 ---
+
+
+Participating in ISRO’s SIF Hackathon was a spur of the moment decision. I asked my teammates from The Three Dubs (WebDev wing of DevsTomorrow) if they were interested and upon their consent, we registered for the hackathon on 10th December with barely 10 days left till submission deadline. After browsing through the problem statements, we found one that really caught our interest.
 
 <Callout>
-  The text below is from the [Tailwind
-  CSS](https://play.tailwindcss.com/uj1vGACRJA?layout=preview) docs. I copied it
-  here to test the markdown styles. **Tailwind is awesome. You should use it.**
+The problem revolved around leveraging User Behavior Data collected from Bhuvan website.
 </Callout>
 
-Until now, trying to style an article, document, or blog post with Tailwind has been a tedious task that required a keen eye for typography and a lot of complex custom CSS.
+## We came up with a two-pronged solution:
+1. Using AI to analyze the data and uncover user interaction patterns.
+2. Developing a Recommender System to suggest articles and boost user engagement.
 
-By default, Tailwind removes all of the default browser styling from paragraphs, headings, lists and more. This ends up being really useful for building application UIs because you spend less time undoing user-agent styles, but when you _really are_ just trying to style some content that came from a rich-text editor in a CMS or a markdown file, it can be surprising and unintuitive.
 
-We get lots of complaints about it actually, with people regularly asking us things like:
+However, the challenge was choosing the right Recommender System amidst the myriad options available, ranging from Matrix Factorization and Boltzmann Machine to Autoencoders – and we needed to choose one that was complex enough to give accurate results without being excessively difficult to implement. Or speaking plainly, we wanted the best results with least effort (yes, we are lazy 😜)
 
-> Why is Tailwind removing the default styles on my `h1` elements? How do I disable this? What do you mean I lose all the other base styles too?
-> We hear you, but we're not convinced that simply disabling our base styles is what you really want. You don't want to have to remove annoying margins every time you use a `p` element in a piece of your dashboard UI. And I doubt you really want your blog posts to use the user-agent styles either — you want them to look _awesome_, not awful.
+So began our frantic search through research papers and blog posts to find our ideal Recommender system!
 
-The `@tailwindcss/typography` plugin is our attempt to give you what you _actually_ want, without any of the downsides of doing something stupid like disabling our base styles.
+After a whirlwind research session, we found Google’s Wide and Deep Recommender System, based on a paper they published in 2016. It was love at first sight😍. Jokes aside, do check it out, it is an hour’s read and well worth it - [Paper Link](https://arxiv.org/abs/1606.07792)
 
-It adds a new `prose` class that you can slap on any block of vanilla HTML content and turn it into a beautiful, well-formatted document:
-
-```html
-<article class="prose">
-  <h1>Garlic bread with cheese: What the science tells us</h1>
-  <p>
-    For years parents have espoused the health benefits of eating garlic bread
-    with cheese to their children, with the food earning such an iconic status
-    in our culture that kids will often dress up as warm, cheesy loaf for
-    Halloween.
-  </p>
-  <p>
-    But a recent study shows that the celebrated appetizer may be linked to a
-    series of rabies cases springing up around the country.
-  </p>
-</article>
-```
-
-For more information about how to use the plugin and the features it includes, [read the documentation](https://github.com/tailwindcss/typography/blob/master/README.md).
-
----
-
-## What to expect from here on out
-
-What follows from here is just a bunch of absolute nonsense I've written to dogfood the plugin itself. It includes every sensible typographic element I could think of, like **bold text**, unordered lists, ordered lists, code blocks, block quotes, _and even italics_.
-
-It's important to cover all of these use cases for a few reasons:
-
-1.  We want everything to look good out of the box.
-2.  Really just the first reason, that's the whole point of the plugin.
-3.  Here's a third pretend reason though a list with three items looks more realistic than a list with two items.
-
-Now we're going to try out another header style.
-
-### Typography should be easy
-
-So that's a header for you — with any luck if we've done our job correctly that will look pretty reasonable.
-
-Something a wise person once told me about typography is:
-
-> Typography is pretty important if you don't want your stuff to look like trash. Make it good then it won't be bad.
-
-It's probably important that images look okay here by default as well:
-
+<br/>
 <Image
-  src="/images/blog/blog-post-4.jpg"
+  src="/images/blog/wadm.png"
   width="718"
   height="404"
   alt="Image"
 />
+<center className=" text-sm opacity-50 mt-2">Wide and Deep Learning Recommender System</center>
 
-Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.
+Our proposal was submitted on December 20th (just in time before deadline😮💨, better late than never😓). You can check out the detailed implementation and math behind it on our GitHub page - Proposal Link
 
-Now I'm going to show you an example of an unordered list to make sure that looks good, too:
+Results were initially expected on December 26th but got extended to the first week of January due to the overwhelming number of submissions. I vividly remember the midnight call on December 31st from my teammate, delivering the news of our selection. __It was indeed a fantastic start to the new year!__ 🎉✨
 
-- So here is the first item in this list.
-- In this example we're keeping the items short.
-- Later, we'll use longer, more complex list items.
+The hackathon took place in Faridabad from January 17th to 19th, running for 30 hours straight. To our surprise (not the good kind🥲, mind you) our problem statement expanded to include three more sub-problems:
+- Generating heatmaps from user data. 📈
+- Creating Session Replays of user interactions. ⏪
+- Monitoring the Server utilization. 🖥️
+---
+__After brainstorming and significant amount of head scratching, nose picking and cursing our fate, we decided on the following solutions:__
+1. User Data Generator for collecting user data. 🛢️
+2. AI Model for recommendations. 🤖
+3. Server for handling incoming and outgoing data and serving AI model. 📶
+4. Monitoring system to analyze server resource utilization. 👁️⃤🔍
+5. Docker Images for easy deployment. 🐳📦
 
-And that's the end of this section.
+Our tech stack was diverse and included various technologies for different components:
+<Image
+  src="/images/blog/techstack.png"
+  width="718"
+  height="404"
+  alt="Image"
+/>
+<center className=" text-sm opacity-50 mt-2">Tech Stack of our implementation</center>
 
-## What if we stack headings?
 
-### We should make sure that looks good, too.
+The architecture of our system was quite elaborate (of which I was very proud😤 😎), involving client-side scripts, server-side handling, AI model training, user analytics, server monitoring, and deployment using Docker and NGINX:
 
-Sometimes you have headings directly underneath each other. In those cases you often have to undo the top margin on the second heading because it usually looks better for the headings to be closer together than a paragraph followed by a heading should be.
+<Image
+  src="/images/blog/arch.png"
+  width="718"
+  height="404"
+  alt="Image"/>
+<center className=" text-sm opacity-50 mt-2">Architecture of our system</center>
 
-### When a heading comes after a paragraph …
+## In-depth explanation of our implementation (Its not boring and tedious read, I promise🤞🏻🤝🏻):
+1. __User Data Generation Script [Client Side] (JavaScript🟨):__ It is client-side script which is embedded in each web page and collects user interaction data for every session (like a grubby little spy🕵🏻, or icky-sticky spider🕷️, or creepy old uncle🥸…. ok I’ll stop) . At end of each session, this data is packaged and send to our servers.
+2. __User Data Handling [Server] (Python, Flask🐍):__ The collected data is the cleaned and properly organized before being stored in our databases – where it’ll live rest of its life in peace … or it won’t since we CHOP 🔪🥩 it into 3 parts to store in three separate databases since we are collecting three different categories of data. Each database has multiple columns.
+3. __AI Model (PyTorch🔥):__
+    - __Data Generation:__ We tap into our Data Lake (or should I say fish 🎣 from our Data Lake) to get the user interaction data as well as user related data, concatenate these two tables and generate vocabulary📖 of words that user showed interest in (more of this is in Google’s paper, check it out, its great!). This is then feed forward to our forever hungry monster - Model Training Phase.
+    - __Model Training:__ We load our previously trained model and train them on new dataset we have generated. These newly “fattened🫃🏻” models are ready to be butchered 🔪🐖– I mean - are then validated✅ to check if there has been any improvement over previous generation model and the best model is set as production model.
+    - __Model Server:__ The production model – the chosen one🗲, the model who lived ⚯ ͛⚡️- is used to generate recommendation based on user data and these recommendations are forwarded to our Server through API which it turns sends it to our users.
+4. __User Analytics for Developers ( Nextjs, Plotly, rrweb ):__
+    - Our Developer’s dashboard gets data from our server through API which is then used to generate plots using Plotly. (With so much plotting🔪💀, we might as well overthrow our secret overlords!🐍⃝⃒⃤🐍⃝⃒⃤ .)
+    - The session data received through API is used to generate session replays using rrweb.
+5. __Server Monitoring (Prometheus and Grafana):__
+    - We are using Prometheus to scrape server logs which then sends it to Grafana to generate graphs related to API hits and misses, resource utilization such as CPU, RAM and memory. I must say, our Promy and Grafie do make an excellent duo. I am “shipping” them together ❤️️.
+6. __Deployment (Docker and NGINX):__
+    - We created Docker images for all our subsystems to make it easy for deploying our code to any hardware.
+    - Since thousands of users will be using our system simultaneously, we decided to go with NGINX for load balancing ⚖️ by creating multiple server instances (which will be made easier due to our docker images) and distributing the load across these instances.
+    - Thus, it will also make it easier for horizontal scaling 📈💵in future as the user base continues to grow. 📶🚀
 
-When a heading comes after a paragraph, we need a bit more space, like I already mentioned above. Now let's see what a more complex list would look like.
 
-- **I often do this thing where list items have headings.**
+# Finale:
+Our hard work paid off as we secured a place in the final top 10. We pitched our idea to a panel of ISRO scientists and eventually clinched the runner-up position out of 4000 submissions and 50 grand finalists.
 
-  For some reason I think this looks cool which is unfortunate because it's pretty annoying to get the styles right.
+# What’s next?
+I am going to open-source🔓🌐 our code soon. The current code still doesn’t meet my expectations and I am hoping to smooth out ✨the rough edges✨ before making it public.
 
-  I often have two or three paragraphs in these list items, too, so the hard part is getting the spacing between the paragraphs, list item heading, and separate list items to all make sense. Pretty tough honestly, you could make a strong argument that you just shouldn't write this way.
+Till then, you can check out our IBM hackathon’s Teaching Assistant AI Chat Bot here: [EduBud](https://github.com/jayshiai/EduBud)
 
-- **Since this is a list, I need at least two items.**
+If you have and question, do reach out, I am sure I can teach you something new and in return I know I’ll learn from you. I am always happy to chat😁, so feel free to contact🤗. Looking forward to having an interesting and engaging conversation. 😉
 
-  I explained what I'm doing already in the previous list item, but a list wouldn't be a list if it only had one item, and we really want this to look realistic. That's why I've added this second list item so I actually have something to look at when writing the styles.
-
-- **It's not a bad idea to add a third item either.**
-
-  I think it probably would've been fine to just use two items but three is definitely not worse, and since I seem to be having no trouble making up arbitrary things to type, I might as well include it.
-
-After this sort of list I usually have a closing statement or paragraph, because it kinda looks weird jumping right to a heading.
-
-## Code should look okay by default.
-
-I think most people are going to use [highlight.js](https://highlightjs.org/) or [Prism](https://prismjs.com/) or something if they want to style their code blocks but it wouldn't hurt to make them look _okay_ out of the box, even with no syntax highlighting.
-
-Here's what a default `tailwind.config.js` file looks like at the time of writing:
-
-```js
-module.exports = {
-  purge: [],
-  theme: {
-    extend: {},
-  },
-  variants: {},
-  plugins: [],
-}
-```
-
-Hopefully that looks good enough to you.
-
-### What about nested lists?
-
-Nested lists basically always look bad which is why editors like Medium don't even let you do it, but I guess since some of you goofballs are going to do it we have to carry the burden of at least making it work.
-
-1.  **Nested lists are rarely a good idea.**
-    - You might feel like you are being really "organized" or something but you are just creating a gross shape on the screen that is hard to read.
-    - Nested navigation in UIs is a bad idea too, keep things as flat as possible.
-    - Nesting tons of folders in your source code is also not helpful.
-2.  **Since we need to have more items, here's another one.**
-    - I'm not sure if we'll bother styling more than two levels deep.
-    - Two is already too much, three is guaranteed to be a bad idea.
-    - If you nest four levels deep you belong in prison.
-3.  **Two items isn't really a list, three is good though.**
-    - Again please don't nest lists if you want people to actually read your content.
-    - Nobody wants to look at this.
-    - I'm upset that we even have to bother styling this.
-
-The most annoying thing about lists in Markdown is that `<li>` elements aren't given a child `<p>` tag unless there are multiple paragraphs in the list item. That means I have to worry about styling that annoying situation too.
-
-- **For example, here's another nested list.**
-
-  But this time with a second paragraph.
-
-  - These list items won't have `<p>` tags
-  - Because they are only one line each
-
-- **But in this second top-level list item, they will.**
-
-  This is especially annoying because of the spacing on this paragraph.
-
-  - As you can see here, because I've added a second line, this list item now has a `<p>` tag.
-
-    This is the second line I'm talking about by the way.
-
-  - Finally here's another list item so it's more like a list.
-
-- A closing list item, but with no nested list, because why not?
-
-And finally a sentence to close off this section.
-
-## There are other elements we need to style
-
-I almost forgot to mention links, like [this link to the Tailwind CSS website](https://tailwindcss.com). We almost made them blue but that's so yesterday, so we went with dark gray, feels edgier.
-
-We even included table styles, check it out:
-
-| Wrestler                | Origin       | Finisher           |
-| ----------------------- | ------------ | ------------------ |
-| Bret "The Hitman" Hart  | Calgary, AB  | Sharpshooter       |
-| Stone Cold Steve Austin | Austin, TX   | Stone Cold Stunner |
-| Randy Savage            | Sarasota, FL | Elbow Drop         |
-| Vader                   | Boulder, CO  | Vader Bomb         |
-| Razor Ramon             | Chuluota, FL | Razor's Edge       |
-
-We also need to make sure inline code looks good, like if I wanted to talk about `<span>` elements or tell you the good news about `@tailwindcss/typography`.
-
-### Sometimes I even use `code` in headings
-
-Even though it's probably a bad idea, and historically I've had a hard time making it look good. This _"wrap the code blocks in backticks"_ trick works pretty well though really.
-
-Another thing I've done in the past is put a `code` tag inside of a link, like if I wanted to tell you about the [`tailwindcss/docs`](https://github.com/tailwindcss/docs) repository. I don't love that there is an underline below the backticks but it is absolutely not worth the madness it would require to avoid it.
-
-#### We haven't used an `h4` yet
-
-But now we have. Please don't use `h5` or `h6` in your content, Medium only supports two heading levels for a reason, you animals. I honestly considered using a `before` pseudo-element to scream at you if you use an `h5` or `h6`.
-
-We don't style them at all out of the box because `h4` elements are already so small that they are the same size as the body copy. What are we supposed to do with an `h5`, make it _smaller_ than the body copy? No thanks.
-
-### We still need to think about stacked headings though.
-
-#### Let's make sure we don't screw that up with `h4` elements, either.
-
-Phew, with any luck we have styled the headings above this text and they look pretty good.
-
-Let's add a closing paragraph here so things end with a decently sized block of text. I can't explain why I want things to end that way but I have to assume it's because I think things will look weird or unbalanced if there is a heading too close to the end of the document.
-
-What I've written here is probably long enough, but adding this final sentence can't hurt.
-
-## GitHub Flavored Markdown
-
-I've also added support for GitHub Flavored Mardown using `remark-gfm`.
-
-With `remark-gfm`, we get a few extra features in our markdown. Example: autolink literals.
-
-A link like www.example.com or https://example.com would automatically be converted into an `a` tag.
-
-This works for email links too: contact@example.com.
+Until then.
+<br/>Jayvardhan Patil, 😎
+<br/>DevsTomorrow

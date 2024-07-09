@@ -15,7 +15,7 @@ import Torus from "@/components/torus"
 async function getGitHubStars(): Promise<string | null> {
   try {
     const response = await fetch(
-      "https://api.github.com/repos/shadcn/taxonomy",
+      "https://api.github.com/repos/jayshiai/dubsui",
       {
         headers: {
           Accept: "application/vnd.github+json",
