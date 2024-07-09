@@ -48,7 +48,7 @@ export default async function IndexPage() {
         <div className="relative flex max-h-[50vh] w-1/2 items-center justify-end">
           <div className=" -z-50 h-[40vw] w-full overflow-visible  ">
             <Torus />
-            <div className="absolute left-1/2 top-1/2 -translate-x-[50%] -translate-y-[50%] text-9xl ave ">
+            <div className="ave absolute left-1/2 top-1/2 -translate-x-[50%] -translate-y-[50%] text-9xl ">
               <FancyText
                 text={"DubsUI"}
                 fontFamily={"ave"}

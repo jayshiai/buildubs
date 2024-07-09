@@ -9,7 +9,7 @@ const FancyText = ({ theme, fontFamily, text }) => {
         "--c2": `${theme[1]}`,
         "--c3": `${theme[2]}`,
       }}
-      className={`${fontFamily} transText transBg h-full flex items-center justify-center`}
+      className={`${fontFamily} transText transBg flex h-full items-center justify-center`}
     >
       {text}
     </div>
