@@ -4,6 +4,7 @@ import { env } from "@/env.mjs"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
+import FancyText from "@/components/FancyText"
 import { CodeBlockWrapper } from "@/components/code-block-wrapper"
 import { ComponentPreview } from "@/components/component-preview"
 import { ComponentSource } from "@/components/component-source"
@@ -45,10 +46,14 @@ export default async function IndexPage() {
     <>
       <section className="relative flex space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
         <div className="relative flex max-h-[50vh] w-1/2 items-center justify-end">
-          <div className=" -z-50 h-[45vw] w-full overflow-visible  ">
+          <div className=" -z-50 h-[40vw] w-full overflow-visible  ">
             <Torus />
-            <div className="absolute left-1/2 top-1/2 -translate-x-[50%] -translate-y-[50%] text-6xl font-bold text-destructive">
-              DubsUI
+            <div className="absolute left-1/2 top-1/2 -translate-x-[50%] -translate-y-[50%] text-9xl ave ">
+              <FancyText
+                text={"DubsUI"}
+                fontFamily={"ave"}
+                theme={["#AAAAAA", "#ffffff", "#555555"]}
+              />
             </div>
           </div>
         </div>

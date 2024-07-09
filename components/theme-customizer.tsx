@@ -147,7 +147,7 @@ const ThemeCustomizer: React.FC = () => {
   textarea
 `
 
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   useEffect(() => {
     function handleKeydown(event: KeyboardEvent) {
       const isModifierActive =
