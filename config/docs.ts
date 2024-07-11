@@ -10,6 +10,10 @@ export const docsConfig: DocsConfig = {
       title: "Guides",
       href: "/guides",
     },
+    {
+      title: "Themer",
+      href: "/themer",
+    },
   ],
   sidebarNav: [
     {
@@ -22,7 +26,17 @@ export const docsConfig: DocsConfig = {
         {
           title: "Installation",
           href: "/docs/installation",
-          disabled: true,
+          
+        },
+        {
+          title: "Theming",
+          href: "/docs/theming",
+          
+        },
+        {
+          title: "TailwindCSS",
+          href: "/docs/tailwind",
+          
         },
       ],
     },

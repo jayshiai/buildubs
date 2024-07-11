@@ -1,9 +1,11 @@
 import { Avatar } from "dubsui"
 
-export default function AvatarDemo() {
+import { cn } from "@/lib/utils"
+
+export default function AvatarDemo({ className }) {
   return (
     <Avatar
-      className="w-24 h-24"
+      className={cn("w-12 h-12", className)}
       src="/images/avatars/profile.jpg"
       fallback="avatar"
     />

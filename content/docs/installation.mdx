@@ -1,0 +1,32 @@
+---
+title: Installation
+description: Install dubsui in your project.
+component: true
+---
+
+### Install
+Install the library in your project using the following command:
+
+```bash
+npm install dubsui
+```
+
+### Styling 
+The components come prestyled. The styles are bundled with the library. 
+
+__Your bundler should pick up the styles and start using them. If it doesn't, just import the styles as follow:__   
+
+```jsx
+import "dubsui/css"
+```
+
+Make sure to import it in your base `layout` file and before your `global.css` to avoid style conflicts.
+
+
+```jsx
+import "dubsui/css"
+import "global.css"
+```
+
+#### TailwindCSS
+If you are using TailwindCSS, refer to TailwindCSS page to cofigure your Tailwindcss to generate styles for components.

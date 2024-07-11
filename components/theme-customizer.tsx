@@ -13,7 +13,7 @@ import {
   TooltipRoot,
   TooltipTrigger,
 } from "dubsui"
-import { ChevronDown, X } from "lucide-react"
+import { ChevronDown, WandSparkles, X } from "lucide-react"
 import { useTheme as useNextTheme } from "next-themes"
 import { Theme } from "shiki"
 
@@ -248,536 +248,557 @@ const ThemeCustomizer: React.FC = () => {
     ],
   }
   return (
-    <div
-      style={{
-        overflow: "hidden",
-        maxHeight: "calc(100vh - var(--space-4) - var(--space-4))",
-        transformOrigin: "top center",
-        transitionProperty: "transform, box-shadow",
-        transitionDuration: "200ms",
-        transitionTimingFunction: open ? "ease-out" : "ease-in",
-        transform: open ? "none" : "translateX(105%)",
-        boxShadow: open ? "var(--shadow-5)" : "var(--shadow-2)",
-      }}
-      className="fixed bottom-[10px] right-[10px] hidden  rounded-xl border-2 bg-background  text-foreground shadow-lg md:block"
-    >
-      <TooltipProvider>
-        <TooltipRoot>
-          <TooltipTrigger asChild>
-            <div
-              onClick={() => setOpen(false)}
-              className="absolute right-3 top-3 z-50 cursor-pointer"
-            >
-              <X />
-            </div>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Press &quot;T&quot; to open and close the Theme Customizer</p>
-          </TooltipContent>
-        </TooltipRoot>
-      </TooltipProvider>
-      <ScrollArea type="scroll" className="z-10 h-[90vh] w-[375px] px-2 ">
-        <div className="ml-2 mt-4">
-          <h1 className="text-2xl font-bold text-foreground">Theme</h1>
-          <div className="mt-3 gap-4 ">
-            <h2 className=" text-foreground">Background</h2>
-            <section className="ml-2">
-              {" "}
-              <div className="my-2 flex items-center gap-2 text-xs">
-                {BackgroundColors.values.map((color) => (
-                  <label
-                    key={color.name}
-                    className=" relative h-6 w-6 rounded-full"
-                    style={{ backgroundColor: `${color.value}` }}
-                  >
-                    <TooltipProvider key={color.name}>
-                      <TooltipRoot>
-                        <TooltipTrigger asChild>
-                          <input
-                            className="themeCustomizer-Input themeCustomizer-Input-Background"
-                            type="radio"
-                            name="backgroundColor"
-                            value={color.value}
-                            checked={theme.background == color.value}
-                            onChange={() =>
-                              handleColorChange(color.value, BackgroundColors)
-                            }
-                          />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>{color.name}</p>
-                        </TooltipContent>
-                      </TooltipRoot>
-                    </TooltipProvider>
-                  </label>
-                ))}
+    <>
+      <div
+        className={`fixed bottom-4 right-4 cursor-pointer rounded-md border border-primary p-2 transition-all delay-100 duration-500 ${
+          open ? "scale-0" : "scale-100"
+        }`}
+      >
+        <TooltipProvider>
+          <TooltipRoot>
+            <TooltipTrigger asChild>
+              <WandSparkles
+                onClick={() => setOpen(!open)}
+                className="h-6 w-6 text-primary"
+              />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Theme Customizer</p>
+            </TooltipContent>
+          </TooltipRoot>
+        </TooltipProvider>
+      </div>
+      <div
+        style={{
+          overflow: "hidden",
+          maxHeight: "calc(100vh - var(--space-4) - var(--space-4))",
+          transformOrigin: "top center",
+          transitionProperty: "transform, box-shadow",
+          transitionDuration: "200ms",
+          transitionTimingFunction: open ? "ease-out" : "ease-in",
+          transform: open ? "none" : "translateX(105%)",
+          boxShadow: open ? "var(--shadow-5)" : "var(--shadow-2)",
+        }}
+        className="fixed bottom-[10px] right-[10px] z-50 hidden  rounded-xl border-2 bg-background  text-foreground shadow-lg md:block"
+      >
+        <TooltipProvider>
+          <TooltipRoot>
+            <TooltipTrigger asChild>
+              <div
+                onClick={() => setOpen(false)}
+                className="absolute right-3 top-3 z-50 cursor-pointer"
+              >
+                <X />
               </div>
-              <div className="my-2 flex items-center gap-2 text-xs">
-                <h4>Custom:</h4>
-                <input
-                  type="color"
-                  name="background"
-                  value={theme.background}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    handleColorChange(e.target.value, BackgroundColors)
-                  }}
-                  className="h-4 w-4"
-                />
-              </div>
-            </section>
-          </div>
-          <div className="mt-3 gap-4 ">
-            <h2 className=" text-foreground">Primary</h2>
-            <section className="ml-2">
-              {" "}
-              <div className="my-2 flex items-center gap-2 text-xs">
-                {PrimaryColors.values.map((color) => (
-                  <label
-                    key={color.name}
-                    className=" relative h-6 w-6 rounded-full"
-                    style={{ backgroundColor: `${color.value}` }}
-                  >
-                    <TooltipProvider key={color.name}>
-                      <TooltipRoot>
-                        <TooltipTrigger asChild>
-                          <input
-                            className="themeCustomizer-Input themeCustomizer-Input-Primary"
-                            type="radio"
-                            name="accentColor"
-                            value={color.value}
-                            checked={theme.primary == color.value}
-                            onChange={() =>
-                              handleColorChange(color.value, PrimaryColors)
-                            }
-                          />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>{color.name}</p>
-                        </TooltipContent>
-                      </TooltipRoot>
-                    </TooltipProvider>
-                  </label>
-                ))}
-              </div>
-              <div className="my-2 flex items-center gap-2 text-xs">
-                <h4>Custom:</h4>
-                <input
-                  type="color"
-                  name="primary"
-                  value={theme.primary}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    handleColorChange(e.target.value, PrimaryColors)
-                  }}
-                  className="h-4 w-4 "
-                />
-              </div>
-            </section>
-          </div>
-          <div className="mt-3 gap-4 ">
-            <h2 className=" text-foreground">Secondary</h2>
-            <section className="ml-2">
-              {" "}
-              <div className="my-2 flex items-center gap-2 text-xs">
-                {SecondaryColors.values.map((color) => (
-                  <label
-                    key={color.name}
-                    className=" relative h-6 w-6 rounded-full"
-                    style={{ backgroundColor: `${color.value}` }}
-                  >
-                    <TooltipProvider key={color.name}>
-                      <TooltipRoot>
-                        <TooltipTrigger asChild>
-                          <input
-                            className="themeCustomizer-Input themeCustomizer-Input-Secondary"
-                            type="radio"
-                            name="secondaryColor"
-                            value={color.value}
-                            checked={theme.secondary == color.value}
-                            onChange={() =>
-                              handleColorChange(color.value, SecondaryColors)
-                            }
-                          />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>{color.name}</p>
-                        </TooltipContent>
-                      </TooltipRoot>
-                    </TooltipProvider>
-                  </label>
-                ))}
-              </div>
-              <div className="my-2 flex items-center gap-2 text-xs">
-                <h4>Custom:</h4>
-                <input
-                  type="color"
-                  name="background"
-                  value={theme.secondary}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    handleColorChange(e.target.value, SecondaryColors)
-                  }}
-                  className="h-4 w-4"
-                />
-              </div>
-            </section>
-          </div>
-
-          <div className="mt-3 gap-4 ">
-            <h2 className=" text-foreground">Border</h2>
-            <section className="ml-2">
-              {" "}
-              <div className="my-2 flex items-center gap-2 text-xs">
-                {BorderColors.values.map((color) => (
-                  <label
-                    key={color.name}
-                    className=" relative h-6 w-6 rounded-full"
-                    style={{ backgroundColor: `${color.value}` }}
-                  >
-                    <TooltipProvider key={color.name}>
-                      <TooltipRoot>
-                        <TooltipTrigger asChild>
-                          <input
-                            className="themeCustomizer-Input themeCustomizer-Input-Border"
-                            type="radio"
-                            name="borderColor"
-                            value={color.value}
-                            checked={theme.border == color.value}
-                            onChange={() =>
-                              handleColorChange(color.value, BorderColors)
-                            }
-                          />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>{color.name}</p>
-                        </TooltipContent>
-                      </TooltipRoot>
-                    </TooltipProvider>
-                  </label>
-                ))}
-              </div>
-              <div className="my-2 flex items-center gap-2 text-xs">
-                <h4>Custom:</h4>
-                <input
-                  type="color"
-                  name="border"
-                  value={theme.border}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    handleColorChange(e.target.value, BorderColors)
-                  }}
-                  className="h-4 w-4"
-                />
-              </div>
-            </section>
-          </div>
-
-          <div>
-            <h1 className="text-foreground">Mode</h1>
-            <div className="flex w-full gap-4">
-              <div className=" relative flex  w-[100px] items-center justify-center rounded-md border py-2">
-                <Icons.sun className="mr-2 h-4 w-4" />
-                Light
-                <input
-                  id="light"
-                  type="radio"
-                  className={cn(
-                    "themeCustomizer-Input ",
-                    nextTheme == "light" ? " border-2 border-primary" : ""
-                  )}
-                  onClick={() => setNextTheme("light")}
-                />
-              </div>
-              <div className=" relative flex w-[100px] items-center justify-center rounded-md border py-2">
-                <Icons.moon className="mr-2 h-4 w-4" />
-                Dark
-                <input
-                  id="dark"
-                  type="radio"
-                  className={cn(
-                    "themeCustomizer-Input  ",
-                    nextTheme == "dark" ? "border-2 border-primary" : ""
-                  )}
-                  onClick={() => setNextTheme("dark")}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex gap-4">
-          <SaveTheme
-            onClick={() => copyToClipboard(generateCssVariables())}
-            variant={"default"}
-            text="Copy Theme"
-            clickedText="Copied!"
-            className="ml-2 mt-6 w-[115px]"
-          />
-
-          <SaveTheme
-            onClick={() => handleResetTheme()}
-            variant={"outline"}
-            text="Reset Theme"
-            clickedText="Theme Reset!"
-            className="ml-2 mt-6 w-[115px]"
-          />
-        </div>
-        <AccordionRoot type="single" collapsible>
-          <AccordionItem value="advanced">
-            <AccordionTrigger>
-              Advanced Settings
-              <ChevronDown className="ml-2 h-5 w-5" />
-            </AccordionTrigger>
-            <AccordionContent>
-              <div className="grid grid-cols-3 place-items-center gap-3 gap-y-6 whitespace-break-spaces p-4 text-center text-sm">
-                <div className=" ">
-                  <label className="flex w-fit flex-col-reverse items-center text-xs">
-                    Background
-                    <input
-                      type="color"
-                      name="background"
-                      value={theme.background}
-                      onChange={handleInputChange}
-                      className=""
-                    />
-                  </label>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Press &quot;T&quot; to open and close the Theme Customizer</p>
+            </TooltipContent>
+          </TooltipRoot>
+        </TooltipProvider>
+        <ScrollArea type="scroll" className="z-10 h-[90vh] w-[375px] px-2 ">
+          <div className="ml-2 mt-4">
+            <h1 className="text-2xl font-bold text-foreground">Theme</h1>
+            <div className="mt-3 gap-4 ">
+              <h2 className=" text-foreground">Background</h2>
+              <section className="ml-2">
+                {" "}
+                <div className="my-2 flex items-center gap-2 text-xs">
+                  {BackgroundColors.values.map((color) => (
+                    <label
+                      key={color.name}
+                      className=" relative h-6 w-6 rounded-full"
+                      style={{ backgroundColor: `${color.value}` }}
+                    >
+                      <TooltipProvider key={color.name}>
+                        <TooltipRoot>
+                          <TooltipTrigger asChild>
+                            <input
+                              className="themeCustomizer-Input themeCustomizer-Input-Background"
+                              type="radio"
+                              name="backgroundColor"
+                              value={color.value}
+                              checked={theme.background == color.value}
+                              onChange={() =>
+                                handleColorChange(color.value, BackgroundColors)
+                              }
+                            />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>{color.name}</p>
+                          </TooltipContent>
+                        </TooltipRoot>
+                      </TooltipProvider>
+                    </label>
+                  ))}
                 </div>
-                <div className="">
-                  <label className="flex w-fit flex-col-reverse items-center text-xs">
-                    Foreground
-                    <input
-                      type="color"
-                      name="foreground"
-                      value={theme.foreground}
-                      onChange={handleInputChange}
-                      className=""
-                    />
-                  </label>
-                </div>
-                <div className="">
-                  <label className="flex w-fit flex-col-reverse items-center text-xs">
-                    Border
-                    <input
-                      type="color"
-                      name="border"
-                      value={theme.border}
-                      onChange={handleInputChange}
-                      className=""
-                    />
-                  </label>
-                </div>
-                <div className="">
-                  <label className="flex w-fit flex-col-reverse items-center text-xs">
-                    Primary
-                    <input
-                      type="color"
-                      name="primary"
-                      value={theme.primary}
-                      onChange={handleInputChange}
-                      className=""
-                    />
-                  </label>
-                </div>
-                <div className="">
-                  <label className="flex w-fit flex-col-reverse items-center text-xs">
-                    Primary Foreground
-                    <input
-                      type="color"
-                      name="primaryForeground"
-                      value={theme.primaryForeground}
-                      onChange={handleInputChange}
-                      className=""
-                    />
-                  </label>
-                </div>
-                <div className="">
-                  <label className="flex w-fit flex-col-reverse items-center text-xs">
-                    Input
-                    <input
-                      type="color"
-                      name="input"
-                      value={theme.input}
-                      onChange={handleInputChange}
-                      className=""
-                    />
-                  </label>
-                </div>
-                <div className="">
-                  <label className="flex w-fit flex-col-reverse items-center text-xs">
-                    Secondary
-                    <input
-                      type="color"
-                      name="secondary"
-                      value={theme.secondary}
-                      onChange={handleInputChange}
-                      className=""
-                    />
-                  </label>
-                </div>
-                <div className="">
-                  <label className="flex w-fit flex-col-reverse items-center text-xs">
-                    Secondary Foreground
-                    <input
-                      type="color"
-                      name="secondaryForeground"
-                      value={theme.secondaryForeground}
-                      onChange={handleInputChange}
-                      className=""
-                    />
-                  </label>
-                </div>
-                <div>
-                  <label className="flex w-fit flex-col-reverse items-center text-xs">
-                    Ring
-                    <input
-                      type="color"
-                      name="ring"
-                      value={theme.ring}
-                      onChange={handleInputChange}
-                      className=""
-                    />
-                  </label>
-                </div>
-                <div className="">
-                  <label className="flex w-fit flex-col-reverse items-center text-xs">
-                    Popover
-                    <input
-                      type="color"
-                      name="popover"
-                      value={theme.popover}
-                      onChange={handleInputChange}
-                      className=""
-                    />
-                  </label>
-                </div>
-                <div className="">
-                  <label className="flex w-fit flex-col-reverse items-center text-xs">
-                    Popover Foreground
-                    <input
-                      type="color"
-                      name="popoverForeground"
-                      value={theme.popoverForeground}
-                      onChange={handleInputChange}
-                      className=""
-                    />
-                  </label>
-                </div>
-                <div className="">
-                  <label className="flex w-fit flex-col-reverse items-center text-xs">
-                    Card
-                    <input
-                      type="color"
-                      name="card"
-                      value={theme.card}
-                      onChange={handleInputChange}
-                      className=""
-                    />
-                  </label>
-                </div>
-
-                <div className="">
-                  <label className="flex w-fit flex-col-reverse items-center text-xs">
-                    Muted
-                    <input
-                      type="color"
-                      name="muted"
-                      value={theme.muted}
-                      onChange={handleInputChange}
-                      className=""
-                    />
-                  </label>
-                </div>
-                <div className="">
-                  <label className="flex w-fit flex-col-reverse items-center text-xs">
-                    Muted Foreground
-                    <input
-                      type="color"
-                      name="mutedForeground"
-                      value={theme.mutedForeground}
-                      onChange={handleInputChange}
-                      className=""
-                    />
-                  </label>
-                </div>
-                <div className="">
-                  <label className="flex w-fit flex-col-reverse items-center text-xs">
-                    Card Foreground
-                    <input
-                      type="color"
-                      name="cardForeground"
-                      value={theme.cardForeground}
-                      onChange={handleInputChange}
-                      className=""
-                    />
-                  </label>
-                </div>
-                <div className="">
-                  <label className="flex w-fit flex-col-reverse items-center text-xs">
-                    Accent
-                    <input
-                      type="color"
-                      name="accent"
-                      value={theme.accent}
-                      onChange={handleInputChange}
-                      className=""
-                    />
-                  </label>
-                </div>
-                <div className="">
-                  <label className="flex w-fit flex-col-reverse items-center text-xs">
-                    Accent Foreground
-                    <input
-                      type="color"
-                      name="accentForeground"
-                      value={theme.accentForeground}
-                      onChange={handleInputChange}
-                      className=""
-                    />
-                  </label>
-                </div>
-
-                <div className="">
-                  <label className="flex w-fit flex-col-reverse items-center text-xs">
-                    Destructive
-                    <input
-                      type="color"
-                      name="destructive"
-                      value={theme.destructive}
-                      onChange={handleInputChange}
-                      className=""
-                    />
-                  </label>
-                </div>
-
-                <div></div>
-                <div className="">
-                  <label className="flex w-fit flex-col-reverse items-center text-xs">
-                    Destructive Foreground
-                    <input
-                      type="color"
-                      name="destructiveForeground"
-                      value={theme.destructiveForeground}
-                      onChange={handleInputChange}
-                      className=""
-                    />
-                  </label>
-                </div>
-              </div>
-              <div className="">
-                <label className="flex  items-center ">
-                  Radius
+                <div className="my-2 flex items-center gap-2 text-xs">
+                  <h4>Custom:</h4>
                   <input
-                    type="number"
-                    name="radius"
-                    step={0.1}
-                    min="0"
-                    value={parseFloat(theme.radius.replace("rem", ""))}
-                    onChange={handleInputChange}
-                    className=" bg-white text-black"
+                    type="color"
+                    name="background"
+                    value={theme.background}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      handleColorChange(e.target.value, BackgroundColors)
+                    }}
+                    className="h-4 w-4"
                   />
-                </label>
+                </div>
+              </section>
+            </div>
+            <div className="mt-3 gap-4 ">
+              <h2 className=" text-foreground">Primary</h2>
+              <section className="ml-2">
+                {" "}
+                <div className="my-2 flex items-center gap-2 text-xs">
+                  {PrimaryColors.values.map((color) => (
+                    <label
+                      key={color.name}
+                      className=" relative h-6 w-6 rounded-full"
+                      style={{ backgroundColor: `${color.value}` }}
+                    >
+                      <TooltipProvider key={color.name}>
+                        <TooltipRoot>
+                          <TooltipTrigger asChild>
+                            <input
+                              className="themeCustomizer-Input themeCustomizer-Input-Primary"
+                              type="radio"
+                              name="accentColor"
+                              value={color.value}
+                              checked={theme.primary == color.value}
+                              onChange={() =>
+                                handleColorChange(color.value, PrimaryColors)
+                              }
+                            />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>{color.name}</p>
+                          </TooltipContent>
+                        </TooltipRoot>
+                      </TooltipProvider>
+                    </label>
+                  ))}
+                </div>
+                <div className="my-2 flex items-center gap-2 text-xs">
+                  <h4>Custom:</h4>
+                  <input
+                    type="color"
+                    name="primary"
+                    value={theme.primary}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      handleColorChange(e.target.value, PrimaryColors)
+                    }}
+                    className="h-4 w-4 "
+                  />
+                </div>
+              </section>
+            </div>
+            <div className="mt-3 gap-4 ">
+              <h2 className=" text-foreground">Secondary</h2>
+              <section className="ml-2">
+                {" "}
+                <div className="my-2 flex items-center gap-2 text-xs">
+                  {SecondaryColors.values.map((color) => (
+                    <label
+                      key={color.name}
+                      className=" relative h-6 w-6 rounded-full"
+                      style={{ backgroundColor: `${color.value}` }}
+                    >
+                      <TooltipProvider key={color.name}>
+                        <TooltipRoot>
+                          <TooltipTrigger asChild>
+                            <input
+                              className="themeCustomizer-Input themeCustomizer-Input-Secondary"
+                              type="radio"
+                              name="secondaryColor"
+                              value={color.value}
+                              checked={theme.secondary == color.value}
+                              onChange={() =>
+                                handleColorChange(color.value, SecondaryColors)
+                              }
+                            />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>{color.name}</p>
+                          </TooltipContent>
+                        </TooltipRoot>
+                      </TooltipProvider>
+                    </label>
+                  ))}
+                </div>
+                <div className="my-2 flex items-center gap-2 text-xs">
+                  <h4>Custom:</h4>
+                  <input
+                    type="color"
+                    name="background"
+                    value={theme.secondary}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      handleColorChange(e.target.value, SecondaryColors)
+                    }}
+                    className="h-4 w-4"
+                  />
+                </div>
+              </section>
+            </div>
+
+            <div className="mt-3 gap-4 ">
+              <h2 className=" text-foreground">Border</h2>
+              <section className="ml-2">
+                {" "}
+                <div className="my-2 flex items-center gap-2 text-xs">
+                  {BorderColors.values.map((color) => (
+                    <label
+                      key={color.name}
+                      className=" relative h-6 w-6 rounded-full"
+                      style={{ backgroundColor: `${color.value}` }}
+                    >
+                      <TooltipProvider key={color.name}>
+                        <TooltipRoot>
+                          <TooltipTrigger asChild>
+                            <input
+                              className="themeCustomizer-Input themeCustomizer-Input-Border"
+                              type="radio"
+                              name="borderColor"
+                              value={color.value}
+                              checked={theme.border == color.value}
+                              onChange={() =>
+                                handleColorChange(color.value, BorderColors)
+                              }
+                            />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>{color.name}</p>
+                          </TooltipContent>
+                        </TooltipRoot>
+                      </TooltipProvider>
+                    </label>
+                  ))}
+                </div>
+                <div className="my-2 flex items-center gap-2 text-xs">
+                  <h4>Custom:</h4>
+                  <input
+                    type="color"
+                    name="border"
+                    value={theme.border}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      handleColorChange(e.target.value, BorderColors)
+                    }}
+                    className="h-4 w-4"
+                  />
+                </div>
+              </section>
+            </div>
+
+            <div>
+              <h1 className="text-foreground">Mode</h1>
+              <div className="flex w-full gap-4">
+                <div className=" relative flex  w-[100px] items-center justify-center rounded-md border py-2">
+                  <Icons.sun className="mr-2 h-4 w-4" />
+                  Light
+                  <input
+                    id="light"
+                    type="radio"
+                    className={cn(
+                      "themeCustomizer-Input ",
+                      nextTheme == "light" ? " border-2 border-primary" : ""
+                    )}
+                    onClick={() => setNextTheme("light")}
+                  />
+                </div>
+                <div className=" relative flex w-[100px] items-center justify-center rounded-md border py-2">
+                  <Icons.moon className="mr-2 h-4 w-4" />
+                  Dark
+                  <input
+                    id="dark"
+                    type="radio"
+                    className={cn(
+                      "themeCustomizer-Input  ",
+                      nextTheme == "dark" ? "border-2 border-primary" : ""
+                    )}
+                    onClick={() => setNextTheme("dark")}
+                  />
+                </div>
               </div>
-            </AccordionContent>
-          </AccordionItem>
-        </AccordionRoot>
-      </ScrollArea>
-    </div>
+            </div>
+          </div>
+          <div className="flex gap-4">
+            <SaveTheme
+              onClick={() => copyToClipboard(generateCssVariables())}
+              variant={"default"}
+              text="Copy Theme"
+              clickedText="Copied!"
+              className="ml-2 mt-6 w-[115px]"
+            />
+
+            <SaveTheme
+              onClick={() => handleResetTheme()}
+              variant={"outline"}
+              text="Reset Theme"
+              clickedText="Theme Reset!"
+              className="ml-2 mt-6 w-[115px]"
+            />
+          </div>
+          <AccordionRoot type="single" collapsible>
+            <AccordionItem value="advanced">
+              <AccordionTrigger>
+                Advanced Settings
+                <ChevronDown className="ml-2 h-5 w-5" />
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="grid grid-cols-3 place-items-center gap-3 gap-y-6 whitespace-break-spaces p-4 text-center text-sm">
+                  <div className=" ">
+                    <label className="flex w-fit flex-col-reverse items-center text-xs">
+                      Background
+                      <input
+                        type="color"
+                        name="background"
+                        value={theme.background}
+                        onChange={handleInputChange}
+                        className=""
+                      />
+                    </label>
+                  </div>
+                  <div className="">
+                    <label className="flex w-fit flex-col-reverse items-center text-xs">
+                      Foreground
+                      <input
+                        type="color"
+                        name="foreground"
+                        value={theme.foreground}
+                        onChange={handleInputChange}
+                        className=""
+                      />
+                    </label>
+                  </div>
+                  <div className="">
+                    <label className="flex w-fit flex-col-reverse items-center text-xs">
+                      Border
+                      <input
+                        type="color"
+                        name="border"
+                        value={theme.border}
+                        onChange={handleInputChange}
+                        className=""
+                      />
+                    </label>
+                  </div>
+                  <div className="">
+                    <label className="flex w-fit flex-col-reverse items-center text-xs">
+                      Primary
+                      <input
+                        type="color"
+                        name="primary"
+                        value={theme.primary}
+                        onChange={handleInputChange}
+                        className=""
+                      />
+                    </label>
+                  </div>
+                  <div className="">
+                    <label className="flex w-fit flex-col-reverse items-center text-xs">
+                      Primary Foreground
+                      <input
+                        type="color"
+                        name="primaryForeground"
+                        value={theme.primaryForeground}
+                        onChange={handleInputChange}
+                        className=""
+                      />
+                    </label>
+                  </div>
+                  <div className="">
+                    <label className="flex w-fit flex-col-reverse items-center text-xs">
+                      Input
+                      <input
+                        type="color"
+                        name="input"
+                        value={theme.input}
+                        onChange={handleInputChange}
+                        className=""
+                      />
+                    </label>
+                  </div>
+                  <div className="">
+                    <label className="flex w-fit flex-col-reverse items-center text-xs">
+                      Secondary
+                      <input
+                        type="color"
+                        name="secondary"
+                        value={theme.secondary}
+                        onChange={handleInputChange}
+                        className=""
+                      />
+                    </label>
+                  </div>
+                  <div className="">
+                    <label className="flex w-fit flex-col-reverse items-center text-xs">
+                      Secondary Foreground
+                      <input
+                        type="color"
+                        name="secondaryForeground"
+                        value={theme.secondaryForeground}
+                        onChange={handleInputChange}
+                        className=""
+                      />
+                    </label>
+                  </div>
+                  <div>
+                    <label className="flex w-fit flex-col-reverse items-center text-xs">
+                      Ring
+                      <input
+                        type="color"
+                        name="ring"
+                        value={theme.ring}
+                        onChange={handleInputChange}
+                        className=""
+                      />
+                    </label>
+                  </div>
+                  <div className="">
+                    <label className="flex w-fit flex-col-reverse items-center text-xs">
+                      Popover
+                      <input
+                        type="color"
+                        name="popover"
+                        value={theme.popover}
+                        onChange={handleInputChange}
+                        className=""
+                      />
+                    </label>
+                  </div>
+                  <div className="">
+                    <label className="flex w-fit flex-col-reverse items-center text-xs">
+                      Popover Foreground
+                      <input
+                        type="color"
+                        name="popoverForeground"
+                        value={theme.popoverForeground}
+                        onChange={handleInputChange}
+                        className=""
+                      />
+                    </label>
+                  </div>
+                  <div className="">
+                    <label className="flex w-fit flex-col-reverse items-center text-xs">
+                      Card
+                      <input
+                        type="color"
+                        name="card"
+                        value={theme.card}
+                        onChange={handleInputChange}
+                        className=""
+                      />
+                    </label>
+                  </div>
+
+                  <div className="">
+                    <label className="flex w-fit flex-col-reverse items-center text-xs">
+                      Muted
+                      <input
+                        type="color"
+                        name="muted"
+                        value={theme.muted}
+                        onChange={handleInputChange}
+                        className=""
+                      />
+                    </label>
+                  </div>
+                  <div className="">
+                    <label className="flex w-fit flex-col-reverse items-center text-xs">
+                      Muted Foreground
+                      <input
+                        type="color"
+                        name="mutedForeground"
+                        value={theme.mutedForeground}
+                        onChange={handleInputChange}
+                        className=""
+                      />
+                    </label>
+                  </div>
+                  <div className="">
+                    <label className="flex w-fit flex-col-reverse items-center text-xs">
+                      Card Foreground
+                      <input
+                        type="color"
+                        name="cardForeground"
+                        value={theme.cardForeground}
+                        onChange={handleInputChange}
+                        className=""
+                      />
+                    </label>
+                  </div>
+                  <div className="">
+                    <label className="flex w-fit flex-col-reverse items-center text-xs">
+                      Accent
+                      <input
+                        type="color"
+                        name="accent"
+                        value={theme.accent}
+                        onChange={handleInputChange}
+                        className=""
+                      />
+                    </label>
+                  </div>
+                  <div className="">
+                    <label className="flex w-fit flex-col-reverse items-center text-xs">
+                      Accent Foreground
+                      <input
+                        type="color"
+                        name="accentForeground"
+                        value={theme.accentForeground}
+                        onChange={handleInputChange}
+                        className=""
+                      />
+                    </label>
+                  </div>
+
+                  <div className="">
+                    <label className="flex w-fit flex-col-reverse items-center text-xs">
+                      Destructive
+                      <input
+                        type="color"
+                        name="destructive"
+                        value={theme.destructive}
+                        onChange={handleInputChange}
+                        className=""
+                      />
+                    </label>
+                  </div>
+
+                  <div></div>
+                  <div className="">
+                    <label className="flex w-fit flex-col-reverse items-center text-xs">
+                      Destructive Foreground
+                      <input
+                        type="color"
+                        name="destructiveForeground"
+                        value={theme.destructiveForeground}
+                        onChange={handleInputChange}
+                        className=""
+                      />
+                    </label>
+                  </div>
+                </div>
+                <div className="">
+                  <label className="flex  items-center ">
+                    Radius
+                    <input
+                      type="number"
+                      name="radius"
+                      step={0.1}
+                      min="0"
+                      value={parseFloat(theme.radius.replace("rem", ""))}
+                      onChange={handleInputChange}
+                      className=" bg-white text-black"
+                    />
+                  </label>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </AccordionRoot>
+        </ScrollArea>
+      </div>
+    </>
   )
 }
 

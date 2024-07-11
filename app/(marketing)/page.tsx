@@ -10,6 +10,7 @@ import { ComponentPreview } from "@/components/component-preview"
 import { ComponentSource } from "@/components/component-source"
 import EmulateKeydown from "@/components/emulate-keydown"
 import { Icons } from "@/components/icons"
+import NpmInstall from "@/components/npm-install"
 import Torus from "@/components/torus"
 
 async function getGitHubStars(): Promise<string | null> {
@@ -58,7 +59,7 @@ export default async function IndexPage() {
           </div>
         </div>
         <div className="flex w-1/2 items-center">
-          <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
+          <div className="container flex max-w-[64rem] flex-col items-end gap-4 text-right">
             {/* <Link
             href={siteConfig.links.twitter}
             className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
@@ -67,8 +68,9 @@ export default async function IndexPage() {
             Follow along on Twitter
           </Link> */}
             <h1 className="text-right font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
-              A Minimilistic Component Library
+              A Minimalistic Component Library
             </h1>
+            <NpmInstall />
             <p className="w-full text-right leading-normal text-muted-foreground sm:text-xl sm:leading-8">
               Built for React on top of RadixUI.
             </p>

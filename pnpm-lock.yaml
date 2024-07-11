@@ -162,8 +162,8 @@ importers:
         specifier: ^2.29.3
         version: 2.29.3
       dubsui:
-        specifier: 0.5.2
-        version: 0.5.2(@react-three/fiber@8.16.8(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(three@0.166.1))(@types/react@18.0.15)(@types/three@0.163.0)(postcss@8.4.23)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        specifier: 0.5.3
+        version: 0.5.3(@react-three/fiber@8.16.8(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(three@0.166.1))(@types/react@18.0.15)(@types/three@0.163.0)(postcss@8.4.23)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       embla-carousel-autoplay:
         specifier: ^8.1.6
         version: 8.1.6(embla-carousel@8.1.6)
@@ -2215,8 +2215,8 @@ packages:
   draco3d@1.5.7:
     resolution: {integrity: sha512-m6WCKt/erDXcw+70IJXnG7M3awwQPAsZvJGX5zY7beBqpELw6RDGkYVU0W43AFxye4pDZ5i2Lbyc/NNGqwjUVQ==}
 
-  dubsui@0.5.2:
-    resolution: {integrity: sha512-QXN+em/L7vr2pwbV9izsMT/MS4CQkUKhTaH0EOxjvgPfV19lyA8Z4htc3QCwlQuFNUf/LJsp+gkbqZ5h8M/GIw==}
+  dubsui@0.5.3:
+    resolution: {integrity: sha512-Tdzcn0uvhWsJ8/dDBMGTTwXntS6NwWfYUl3odmb2XSWl/0FokH9VejTJ6Jek0B3eUzkJB1BMrjl/00LXgMhgMg==}
     peerDependencies:
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -7101,7 +7101,7 @@ snapshots:
 
   draco3d@1.5.7: {}
 
-  dubsui@0.5.2(@react-three/fiber@8.16.8(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(three@0.166.1))(@types/react@18.0.15)(@types/three@0.163.0)(postcss@8.4.23)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+  dubsui@0.5.3(@react-three/fiber@8.16.8(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(three@0.166.1))(@types/react@18.0.15)(@types/three@0.163.0)(postcss@8.4.23)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@react-three/drei': 9.108.3(@react-three/fiber@8.16.8(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(three@0.166.1))(@types/react@18.0.15)(@types/three@0.163.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(three@0.166.1)
       postcss-prefix-selector: 1.16.1(postcss@8.4.23)
