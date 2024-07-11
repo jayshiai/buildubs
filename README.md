@@ -19,13 +19,15 @@
   <h3 align="center">BuilDubs</h3>
 
   <p align="center">
-    A centralized website for all-things-3Dubs! It acts a documentation website for <a href="https://github.com/jayshiai/DubsUI">dubsui</a>, as well as place for <a href="https://ui.3dubs.in/blog">Blogs</a> and <a href="https://ui.3dubs.in/guides">Guides</a>. <b>It has its own Theme Editor and in future will contain Drag-and-Drop website builder</b>
+    A centralized website for all-things-3Dubs! It acts a documentation website for <a href="https://github.com/jayshiai/DubsUI">dubsui</a>, as well as place for <a href="https://ui.3dubs.in/blog">Blogs</a> and <a href="https://ui.3dubs.in/guides">Guides</a>. <br/><b style="font-size: 20px">It has its own Theme Editor and in future will contain Drag-and-Drop website builder</b>
     <br />
     <a href="https://ui.3dubs.in"><strong>Visit the site »</strong></a>
     <br />
     <br />
     <a href="https://ui.3dubs.in/blog">Blogs</a>
     ·
+    <a href="https://ui.3dubs.in/guides">Guides</a>
+    .
     <a href="https://github.com/jayshiai/buildubs/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
     <a href="https://github.com/jayshiai/buildubs/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
@@ -56,7 +58,7 @@
 
 [![buildubs][product-screenshot]](https://ui.3dubs.in)
 
-**buildubs** a centralized website for all thing created by **The Three Dubs / 3Dubs**
+**buildubs** is a centralized website for all thing created by **The Three Dubs / 3Dubs**
 
 ### Built With
 
