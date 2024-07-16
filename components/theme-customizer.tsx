@@ -205,10 +205,10 @@ const ThemeCustomizer: React.FC = () => {
 
   const { toast } = useToast()
   const handlePresetChange = (preset: string) => {
-    toast({
-      description: preset,
-      className: "h-[50px]  bg-primary text-primary-foreground",
-    })
+    // toast({
+    //   description: preset,
+    //   className: "h-[50px]  bg-primary text-primary-foreground",
+    // })
     setCurrentPreset(preset)
     const light = Presets[preset].light
     const dark = Presets[preset].dark
@@ -251,7 +251,7 @@ const ThemeCustomizer: React.FC = () => {
   return (
     <>
       <div
-        className={`fixed bottom-4 right-4 cursor-pointer rounded-md border border-primary bg-background p-2 transition-all delay-100 duration-500 ${
+        className={`fixed bottom-4 right-4 cursor-pointer rounded-md border border-primary bg-primary-foreground p-2 transition-all delay-100 duration-500 ${
           open ? "scale-0" : "scale-100"
         }`}
       >
