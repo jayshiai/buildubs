@@ -21,7 +21,6 @@ import {
 import { ButtonNode } from "@/components/editor/selectors/Button"
 import { Container } from "@/components/editor/selectors/Container"
 import { Text } from "@/components/editor/selectors/Text"
-import { Video } from "@/components/editor/selectors/Video"
 
 import AccordionNode from "../selectors/Accordion"
 import AlertDialogNode from "../selectors/AlertDialog"
