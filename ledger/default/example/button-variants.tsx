@@ -58,7 +58,7 @@ export default function ButtonVariants() {
       Custom Component
       <div>
         <Button asChild>
-          <a href="/login">Login</a>
+          <a href="/blog">Blogs</a>
         </Button>
       </div>
     </div>

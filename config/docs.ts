@@ -10,6 +10,11 @@ export const docsConfig: DocsConfig = {
       title: "Guides",
       href: "/guides",
     },
+  
+    {
+      title: "Builder",
+      href: "/builder",
+    },
     {
       title: "Themer",
       href: "/themer",
