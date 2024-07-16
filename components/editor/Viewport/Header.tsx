@@ -4,7 +4,13 @@ import Customize from "@/public/icons/customize.svg"
 import RedoSvg from "@/public/icons/toolbox/redo.svg"
 import UndoSvg from "@/public/icons/toolbox/undo.svg"
 import { useEditor } from "@craftjs/core"
+import hljs from "highlight.js/lib/core"
+import HTML from "highlight.js/lib/languages/xml"
+import { CheckIcon, ClipboardIcon } from "lucide-react"
 
+import { useToast } from "@/components/ui/use-toast"
+
+import "highlight.js/styles/monokai.css"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -21,8 +27,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-
-const shiki = require("shiki")
 
 const containerStyle = (props, level) => `
   ${indent(level)} display: flex;
@@ -72,16 +76,16 @@ const generateJSX = (node, data, level = 0) => {
 
   switch (type.resolvedName) {
     case "Container":
-      return `${indent(level)}<div style="${containerStyle(
+      return ` ${indent(level)} <div style="${containerStyle(
         props,
         level
-      )}${indent(level)}">\n${children}\n${indent(level)}</div>`
+      )} ${indent(level)} "> \n${children}\n ${indent(level)} </div>`
     case "Text":
-      return `${indent(level)}<p style="${textStyle(props, level)}${indent(
+      return ` ${indent(level)} <p style="${textStyle(props, level)} ${indent(
         level
-      )}">\n${indent(level)}${props.text}\n${indent(level)}</p>`
+      )} ">\n ${indent(level)} ${props.text}\n ${indent(level)} </p>`
     case "SeparatorNode":
-      return `${indent(level)}<hr style="${separatorStyle(props)}" />`
+      return ` ${indent(level)} <hr style="${separatorStyle(props)}" />`
     default:
       return ""
   }
@@ -104,23 +108,37 @@ export const Header = () => {
   )
   const [code, setCode] = React.useState(null)
   const [highlightedCode, setHighlightedCode] = React.useState("")
-  const highlightCode = async (code) => {
-    // shiki
-    //   .getHighlighter({
-    //     theme: "nord",
-    //   })
-    //   .then((highlighter) => {
-    //     console.log(
-    //       highlighter.codeToHtml(`console.log('shiki');`, { lang: "js" })
-    //     )
-    //   })
-    setHighlightedCode(code)
+  hljs.registerLanguage("javascript", HTML)
+  const replaceNbsp = (str) => {
+    return str.replace(/(&nbsp;)+/g, (match) => " ".repeat(match.length / 6))
+  }
+  const highlightCode = (code) => {
+    const highlightedCodeHJ = hljs.highlight(code, {
+      language: "HTML",
+    }).value
+
+    setHighlightedCode(replaceNbsp(highlightedCodeHJ))
     //   await codeToHtml(code, {
     //     lang: "javascript",
     //     theme: "vitesse-dark",
     //   }).then((html) => {
     //     setHighlightedCode(html)
     //   })
+  }
+  const { toast } = useToast()
+  const [hasCopied, setHasCopied] = React.useState(false)
+  React.useEffect(() => {
+    setTimeout(() => {
+      setHasCopied(false)
+    }, 5000)
+  }, [hasCopied])
+  async function copyToClipboard(value: string) {
+    navigator.clipboard.writeText(value)
+    toast({
+      description: "Copied to Clipboard!",
+      className: "h-[50px]  bg-primary text-background",
+    })
+    setHasCopied(true)
   }
   React.useEffect(() => {
     if (code) {
@@ -189,13 +207,28 @@ export const Header = () => {
                   </SheetDescription>
                 </SheetHeader>
                 <div>
-                  {highlightedCode && ( // <div
+                  {highlightedCode && (
+                    // <div
                     //   className="overflow-x-auto rounded-md  p-4 font-mono text-xs text-white"
                     //   dangerouslySetInnerHTML={{ __html: highlightedCode }}
                     // />
-                    <pre className="overflow-x-auto rounded-md  p-4 font-mono text-xs text-white">
-                      {" "}
-                      {code}
+                    <pre className="relative overflow-x-auto bg-muted rounded-md  p-4 font-mono text-xs text-white">
+                      <div className="absolute top-0 right-0">
+                        {" "}
+                        <span
+                          onClick={() => copyToClipboard(code)}
+                          className="flex w-fit cursor-pointer items-center gap-2 rounded-md bg-slate-800 px-4  font-mono text-white"
+                        >
+                          {hasCopied ? (
+                            <CheckIcon className=" h-4 w-4 " />
+                          ) : (
+                            <ClipboardIcon className=" h-4 w-4 " />
+                          )}
+                        </span>
+                      </div>
+                      <code
+                        dangerouslySetInnerHTML={{ __html: highlightedCode }}
+                      ></code>
                     </pre>
                   )}
                 </div>

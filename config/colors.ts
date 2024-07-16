@@ -123,7 +123,7 @@ const BOTW = {
     dark:{
         "background": "#05112e",
         "foreground": "#8bd8ef",
-        "muted": "#f5faff",
+        "muted": "#0A615F",
         "mutedForeground": "#b5f956",
         "popover": "#07191c",
         "popoverForeground": "#40b29f",
@@ -135,7 +135,7 @@ const BOTW = {
         "primaryForeground": "#07191c",
         "secondary": "#f5faff",
         "secondaryForeground": "#40b29f",
-        "accent": "#f5faff",
+        "accent": "#0A615F",
         "accentForeground": "#40b29f",
         "destructive": "#811d1d",
         "destructiveForeground": "#f8fafc",
