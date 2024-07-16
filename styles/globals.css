@@ -235,3 +235,95 @@ input[type="color" i]::-moz-color-swatch {
     @apply absolute -inset-4 shadow-xl rounded-xl border;
   }
 }
+
+
+/* custom styles for editor slider */
+.input-slider > span:nth-child(1){
+  height: 4px;
+}
+
+.input-slider > span:nth-child(2) > span{
+  height: 12px;
+  width: 12px;
+}
+
+/* Custom styles for the layers */
+.juYdqL {
+  background-color: var(--secondary) !important;
+}
+
+.juyMci{
+  background-color: var(--secondary) !important;
+
+}
+.ioRbzX {
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+}
+
+.ioRbzX svg{
+ fill: var(--primary-foreground) !important;
+}
+.iLOVfq {
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+}
+.iLOVfq svg{
+  fill: var(--primary-foreground) !important;
+ }
+
+ .dwvbHt {
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+ }
+  .dwvbHt svg{
+    fill: var(--primary-foreground) !important;
+  }
+
+  .eHZtpA{
+    background-color: var(--primary) !important;
+    color: var(--primary-foreground) !important;
+  
+  }
+  .eHZtpA svg{
+    fill: var(--primary-foreground) !important;
+  }
+  .brgSFe{
+    background-color: var(--primary) !important;
+    color: var(--primary-foreground) !important;
+  
+  }
+  .brgSFe svg{
+    fill: var(--primary-foreground) !important;
+  }
+
+  .dstRLD{
+    background-color: var(--primary) !important;
+    color: var(--primary-foreground) !important;
+  }
+  .dstRLD svg{
+    fill: var(--primary-foreground) !important;
+  }
+  .laXTac{
+    background-color: var(--primary) !important;
+    color: var(--primary-foreground) !important;
+  }
+  .laXTac svg{
+    fill: var(--primary-foreground) !important;
+  }
+  
+/* #LayerContainer div[depth] {
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+}
+
+#LayerContainer div[depth] svg{
+  fill: var(--primary-foreground) !important;
+ 
+} */
+
+
+.shiki {
+  border-radius: 0.5rem;
+  padding: 10px;
+}
