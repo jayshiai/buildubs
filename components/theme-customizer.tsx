@@ -15,14 +15,22 @@ import {
 } from "dubsui"
 import { ChevronDown, WandSparkles, X } from "lucide-react"
 import { useTheme as useNextTheme } from "next-themes"
-import { Theme } from "shiki"
 
+import {
+  BackgroundColors,
+  BorderColors,
+  Presets,
+  PrimaryColors,
+  SecondaryColors,
+  presetMapping,
+} from "@/config/colors"
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
 
-import { darkTheme, lightTheme, useTheme } from "./context/theme-context"
+import { Theme, darkTheme, lightTheme, useTheme } from "./context/theme-context"
+import IComponent from "./i-component"
 import SaveTheme from "./save-theme"
-import { Label } from "./ui/label"
+import { useToast } from "./ui/use-toast"
 
 export async function copyToClipboard(value: string) {
   navigator.clipboard.writeText(value)
@@ -35,12 +43,14 @@ const TooltipProvider = ({ children }) => {
     </OriginalTooltipProvider>
   )
 }
+
 const generateCssVariables = () => {
   let themeStore = localStorage.getItem("customLightTheme")
   let theme = themeStore ? JSON.parse(themeStore) : lightTheme
 
   let darkThemeStore = localStorage.getItem("customDarkTheme")
   let DarkTheme = darkThemeStore ? JSON.parse(darkThemeStore) : darkTheme
+  console.log("light: ", theme, "dark:", DarkTheme)
   return `
   :root {
     --background: ${theme.background};
@@ -109,8 +119,10 @@ const generateCssVariables = () => {
   }
   `
 }
+
 const ThemeCustomizer: React.FC = () => {
   const { theme, updateTheme, setTheme } = useTheme()
+
   const {
     theme: nextTheme,
     resolvedTheme,
@@ -187,70 +199,59 @@ const ThemeCustomizer: React.FC = () => {
     console.log("Color:", color, "Theme:", theme.background)
   }
 
-  const PrimaryColors = {
-    fields: [
-      "primary",
-      "cardForeground",
-      "secondaryForeground",
-      "accentForeground",
-      "foreground",
-      "mutedForeground",
-      "popoverForeground",
-    ],
-    values: [
-      { name: "Default Dark", value: "#f8fafc" },
-      { name: "Default Light", value: "#0f172a" },
-      { name: "Teal", value: "#007f80" },
-      { name: "Red", value: "#FF0000" },
-      { name: "Green", value: "#00FF00" },
-      { name: "Blue", value: "#0000FF" },
-      { name: "Yellow", value: "#FFFF00" },
-      { name: "Cyan", value: "#00FFFF" },
-      { name: "Magenta", value: "#FF00FF" },
-    ],
-  }
+  const [currentPreset, setCurrentPreset] = useState(
+    Object.values(presetMapping)[0]
+  )
 
-  const SecondaryColors = {
-    fields: ["secondary", "muted", "accent"],
-    values: [
-      { name: "Default Dark", value: "#0f172a" },
-      { name: "Default Light", value: "#f1f5f9" },
-      { name: "Sky", value: "#7CE2FE" },
-      { name: "Amber", value: "#FFE7B3" },
-      { name: "Dull Teal", value: "#0D2D2A" },
-      { name: "Dull Iris", value: "#202248" },
-    ],
+  const { toast } = useToast()
+  const handlePresetChange = (preset: string) => {
+    toast({
+      description: preset,
+      className: "h-[50px]  bg-primary text-primary-foreground",
+    })
+    setCurrentPreset(preset)
+    const light = Presets[preset].light
+    const dark = Presets[preset].dark
+    localStorage.setItem("customLightTheme", JSON.stringify(light))
+    localStorage.setItem("customDarkTheme", JSON.stringify(dark))
+    localStorage.setItem("currentPreset", preset)
+    setTheme(resolvedTheme === "light" ? (light as Theme) : (dark as Theme))
   }
+  useEffect(() => {
+    function handleKeydown(event: KeyboardEvent) {
+      const isModifierActive =
+        event.altKey || event.ctrlKey || event.shiftKey || event.metaKey
+      const isKeyboardInputActive =
+        document.activeElement?.closest(keyboardInputElement)
+      const isNumberKey = !isModifierActive && /^[0-9]$/.test(event.key)
+      const isCKey = !isModifierActive && event.key.toLowerCase() === "c"
 
-  const BackgroundColors = {
-    fields: ["background", "popover", "card", "primaryForeground"],
-    values: [
-      { name: "Default Dark", value: "#030711" },
-      { name: "Default Light", value: "#ffffff" },
+      if (isNumberKey && !isKeyboardInputActive) {
+        const presetIndex = parseInt(event.key, 10)
+        const presetKey = presetMapping[presetIndex]
 
-      { name: "Gold", value: "#ffd900" },
-      { name: "Lavender", value: "#E6E6FA" },
-      { name: "Indigo", value: "#4B0082" },
-      { name: "Salmon", value: "#FA8072" },
-      { name: "Beige", value: "#F5F5DC" },
-      { name: "Wheat", value: "#F5DEB3" },
-      { name: "Ivory", value: "#FFFFF0" },
-    ],
-  }
-  const BorderColors = {
-    fields: ["border", "ring", "input"],
-    values: [
-      { name: "Default Dark", value: "#1d283a" },
-      { name: "Default Light", value: "#e2e8f0" },
-      { name: "Purple", value: "#8E4EC6" },
-      { name: "Ruby", value: "#E54666" },
-      { name: "Jade", value: "#1FD8A4" },
-    ],
-  }
+        handlePresetChange(presetKey)
+      }
+
+      if (isCKey && !isKeyboardInputActive) {
+        const currentPresetIndex =
+          Object.values(presetMapping).indexOf(currentPreset)
+        const nextPresetIndex =
+          (currentPresetIndex + 1) % Object.values(presetMapping).length
+        const nextPresetKey = Object.values(presetMapping)[nextPresetIndex]
+
+        handlePresetChange(nextPresetKey)
+      }
+    }
+
+    document.addEventListener("keydown", handleKeydown)
+    return () => document.removeEventListener("keydown", handleKeydown)
+  }, [handlePresetChange, keyboardInputElement, currentPreset])
+
   return (
     <>
       <div
-        className={`fixed bottom-4 right-4 cursor-pointer rounded-md border border-primary p-2 transition-all delay-100 duration-500 ${
+        className={`fixed bottom-4 right-4 cursor-pointer rounded-md border border-primary bg-background p-2 transition-all delay-100 duration-500 ${
           open ? "scale-0" : "scale-100"
         }`}
       >
@@ -279,7 +280,7 @@ const ThemeCustomizer: React.FC = () => {
           transform: open ? "none" : "translateX(105%)",
           boxShadow: open ? "var(--shadow-5)" : "var(--shadow-2)",
         }}
-        className="fixed bottom-[10px] right-[10px] z-50 hidden  rounded-xl border-2 bg-background  text-foreground shadow-lg md:block"
+        className="fixed bottom-[10px] right-[10px] z-50   rounded-xl border-2 bg-background  text-foreground shadow-lg "
       >
         <TooltipProvider>
           <TooltipRoot>
@@ -296,9 +297,58 @@ const ThemeCustomizer: React.FC = () => {
             </TooltipContent>
           </TooltipRoot>
         </TooltipProvider>
-        <ScrollArea type="scroll" className="z-10 h-[90vh] w-[375px] px-2 ">
+        <ScrollArea
+          type="scroll"
+          className="z-10 h-[90vh]  w-full px-2 md:w-[375px] "
+        >
           <div className="ml-2 mt-4">
             <h1 className="text-2xl font-bold text-foreground">Theme</h1>
+            <div className="mt-3 gap-4 ">
+              <h2 className=" text-foreground">
+                Presets{" "}
+                <IComponent
+                  content={
+                    <span>
+                      Press 0, 1 , 2 , 3 .. 9 to quickly access the presets.{" "}
+                      <br /> Or just press &quot;C&quot; to cycle through the
+                      presets.
+                      <br /> See if you can guess what each preset is
+                      referencing!
+                    </span>
+                  }
+                />
+              </h2>
+              <section className="ml-2">
+                {" "}
+                <div className="my-2 flex items-center gap-2 text-xs">
+                  {Object.keys(Presets).map((key) => (
+                    <label
+                      key={key}
+                      className=" relative h-6 w-6 rounded-full"
+                      style={{ backgroundColor: `${Presets[key].identifier}` }}
+                    >
+                      <TooltipProvider key={key}>
+                        <TooltipRoot>
+                          <TooltipTrigger asChild>
+                            <input
+                              className="themeCustomizer-Input themeCustomizer-Input-Background"
+                              type="radio"
+                              name="backgroundColor"
+                              value={`${Presets[key].identifier}`}
+                              checked={currentPreset == key}
+                              onChange={() => handlePresetChange(`${key}`)}
+                            />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>{key}</p>
+                          </TooltipContent>
+                        </TooltipRoot>
+                      </TooltipProvider>
+                    </label>
+                  ))}
+                </div>
+              </section>
+            </div>
             <div className="mt-3 gap-4 ">
               <h2 className=" text-foreground">Background</h2>
               <section className="ml-2">
@@ -490,7 +540,17 @@ const ThemeCustomizer: React.FC = () => {
             </div>
 
             <div>
-              <h1 className="text-foreground">Mode</h1>
+              <h1 className="text-foreground">
+                Mode{" "}
+                <IComponent
+                  content={
+                    <span>
+                      Press &quot;D&quot; to quickly switch between Light and
+                      Dark Theme.
+                    </span>
+                  }
+                />
+              </h1>
               <div className="flex w-full gap-4">
                 <div className=" relative flex  w-[100px] items-center justify-center rounded-md border py-2">
                   <Icons.sun className="mr-2 h-4 w-4" />

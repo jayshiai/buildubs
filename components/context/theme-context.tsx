@@ -9,7 +9,7 @@ import React, {
 } from "react"
 import { useTheme as useNextTheme } from "next-themes"
 
-interface Theme {
+export interface Theme {
   background: string
   foreground: string
   muted: string
@@ -142,7 +142,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     }
 
     if (storedTheme) {
-      console.log("shoulden'te be here")
       setTheme(JSON.parse(storedTheme) as Theme)
     } else {
       console.log(resolvedTheme)
@@ -156,6 +155,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       ...prevTheme,
       [key]: value,
     }))
+    localStorage.setItem("currentPreset", "custom")
     if (resolvedTheme === "light") {
       localStorage.setItem("customLightTheme", JSON.stringify(theme))
     } else {
