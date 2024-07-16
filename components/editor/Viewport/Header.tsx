@@ -213,16 +213,15 @@ export const Header = () => {
                     //   dangerouslySetInnerHTML={{ __html: highlightedCode }}
                     // />
                     <pre className="relative overflow-x-auto bg-muted rounded-md  p-4 font-mono text-xs text-white">
-                      <div className="absolute top-0 right-0">
-                        {" "}
+                      <div className="absolute top-1 right-1">
                         <span
                           onClick={() => copyToClipboard(code)}
-                          className="flex w-fit cursor-pointer items-center gap-2 rounded-md bg-slate-800 px-4  font-mono text-white"
+                          className="flex w-fit cursor-pointer items-center gap-2 rounded-md bg-background p-2 font-mono text-foreground"
                         >
                           {hasCopied ? (
-                            <CheckIcon className=" h-4 w-4 " />
+                            <CheckIcon className=" h-4 w-4" />
                           ) : (
-                            <ClipboardIcon className=" h-4 w-4 " />
+                            <ClipboardIcon className=" h-4 w-4" />
                           )}
                         </span>
                       </div>
