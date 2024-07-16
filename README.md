@@ -139,15 +139,15 @@ Project Link: [https://github.com/jayshiai/buildubs](https://github.com/jayshiai
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/jayshiai/buildubs?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/jayshiai/buildubs?style=plastic
 [contributors-url]: https://github.com/jayshiai/buildubs/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/jayshiai/buildubs?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/jayshiai/buildubs?style=plastic
 [forks-url]: https://github.com/jayshiai/buildubs/network/members
-[stars-shield]: https://img.shields.io/github/stars/jayshiai/buildubs.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/jayshiai/buildubs.svg?style=plastic
 [stars-url]: https://github.com/jayshiai/buildubs/stargazers
-[issues-shield]: https://img.shields.io/github/issues/jayshiai/buildubs.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/jayshiai/buildubs.svg?style=plastic
 [issues-url]: https://github.com/jayshiai/buildubs/issues
-[license-shield]: https://img.shields.io/github/license/jayshiai/buildubs.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/jayshiai/buildubs.svg?style=plastic
 [license-url]: https://github.com/jayshiai/buildubs/blob/master/LICENSE.md
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/jayvardhan-patil-419b9926b/

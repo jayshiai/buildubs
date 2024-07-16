@@ -1,6 +1,7 @@
-import { withContentlayer } from "next-contentlayer"
+import { withContentlayer } from "next-contentlayer";
 
-import "./env.mjs"
+
+import "./env.mjs";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -11,6 +12,17 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ["@prisma/client"],
   },
-}
+  webpack(config, options) {
+    // SVG Loader for inline SVGs
+    config.module.rules.push({
+      test: /\.svg$/,
+      issuer: {
+        and: [/\.(js|ts|jsx|tsx)$/],
+      },
+      use: ["@svgr/webpack"],
+    });
+    return config;
+  },
+};
 
 export default withContentlayer(nextConfig)
