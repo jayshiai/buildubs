@@ -4,7 +4,6 @@ import Customize from "@/public/icons/customize.svg"
 import RedoSvg from "@/public/icons/toolbox/redo.svg"
 import UndoSvg from "@/public/icons/toolbox/undo.svg"
 import { useEditor } from "@craftjs/core"
-import { codeToHtml } from "shiki"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -22,6 +21,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+
+const shiki = require("shiki")
 
 const containerStyle = (props, level) => `
   ${indent(level)} display: flex;
@@ -104,12 +105,22 @@ export const Header = () => {
   const [code, setCode] = React.useState(null)
   const [highlightedCode, setHighlightedCode] = React.useState("")
   const highlightCode = async (code) => {
-    await codeToHtml(code, {
-      lang: "javascript",
-      theme: "vitesse-dark",
-    }).then((html) => {
-      setHighlightedCode(html)
-    })
+    // shiki
+    //   .getHighlighter({
+    //     theme: "nord",
+    //   })
+    //   .then((highlighter) => {
+    //     console.log(
+    //       highlighter.codeToHtml(`console.log('shiki');`, { lang: "js" })
+    //     )
+    //   })
+    setHighlightedCode(code)
+    //   await codeToHtml(code, {
+    //     lang: "javascript",
+    //     theme: "vitesse-dark",
+    //   }).then((html) => {
+    //     setHighlightedCode(html)
+    //   })
   }
   React.useEffect(() => {
     if (code) {
@@ -161,7 +172,7 @@ export const Header = () => {
                   className="ml-2"
                   onClick={() => {
                     const CodeString = generateCode(query.getSerializedNodes())
-                    console.log(CodeString)
+
                     setCode(CodeString)
                   }}
                 >
@@ -178,11 +189,14 @@ export const Header = () => {
                   </SheetDescription>
                 </SheetHeader>
                 <div>
-                  {highlightedCode && (
-                    <div
-                      className="overflow-x-auto rounded-md  p-4 font-mono text-xs text-white"
-                      dangerouslySetInnerHTML={{ __html: highlightedCode }}
-                    />
+                  {highlightedCode && ( // <div
+                    //   className="overflow-x-auto rounded-md  p-4 font-mono text-xs text-white"
+                    //   dangerouslySetInnerHTML={{ __html: highlightedCode }}
+                    // />
+                    <pre className="overflow-x-auto rounded-md  p-4 font-mono text-xs text-white">
+                      {" "}
+                      {code}
+                    </pre>
                   )}
                 </div>
               </SheetContent>
