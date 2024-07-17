@@ -355,9 +355,11 @@ export const Header = () => {
                 <SheetHeader>
                   <SheetTitle>Generated Code</SheetTitle>
                   <SheetDescription>
-                    This code is NOT perfect and is in experimental state. You
-                    can paste and open it in a HTML file, but the dubsui
-                    components are not yet supported.
+                    This <strong>JSX</strong> code is generated from the current
+                    state of the editor.
+                    <br /> Paste it in your React project to render the same UI.
+                    <br /> Be sure to have the <strong>DubsUI</strong> library
+                    installed in your project.
                   </SheetDescription>
                 </SheetHeader>
                 <div>
