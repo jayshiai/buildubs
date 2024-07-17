@@ -205,10 +205,10 @@ const ThemeCustomizer: React.FC = () => {
 
   const { toast } = useToast()
   const handlePresetChange = (preset: string) => {
-    // toast({
-    //   description: preset,
-    //   className: "h-[50px]  bg-primary text-primary-foreground",
-    // })
+    toast({
+      description: preset,
+      className: "h-[50px]  bg-primary text-primary-foreground",
+    })
     setCurrentPreset(preset)
     const light = Presets[preset].light
     const dark = Presets[preset].dark
