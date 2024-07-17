@@ -1,0 +1,545 @@
+---
+title: "Creating a React Component Library"
+description: "How the DubsUI was created"
+date: "2024-07-15"
+authors:
+  - jayshiai
+---
+
+# Setup
+
+## Setting up the project
+
+We start by creating a new project using [Vite](https://vitejs.dev/). Vite is a build tool that significantly speeds up the development process by leveraging the native ES module imports. 
+
+```bash
+npm create vite@latest
+? Project name: › dubsui
+? Select a framework: › React
+? Select a variant: › TypeScript
+cd dubsui
+npm i
+```
+As mentioned, we wanted our components to be type safe, so we chose TypeScript as our language.
+
+The project structure looks like this:
+
+```bash
+ 📂dubsui
+  ┣ 📂public
+  ┣ 📂src
+  ┣ 📜package.json
+  ┣ 📜tsconfig.json
+  ┣ 📜vite.config
+  …
+```
+
+## Configuring Build Setup
+At this point you can run `npm run dev` and see the default Vite React app running. When creating you can test out your components in this app. __However we will not be using it, since we plan to setup Storybook later.__
+
+Instead, our library code will reside in another folder. Let's create a new folder and name it `lib`.
+
+The entry point for our library will be `lib/index.tsx`. We will export all our components from this file. When installing the library you can import everything that is exported from this file.
+
+```bash
+ 📂dubsui
+ +┣ 📂lib
+ +┃ ┗ 📜index.ts
+  ┣ 📂public
+  ┣ 📂src
+  …
+```
+### Library Mode in Vite
+
+If you were to run `npm run build` to build the project, you would see that Vite transpiles `src` to `dist`. However we are using `src` as tesing ground and don't want it in final package.
+
+So to transpile and ship only `lib` where our components code will reside, we need to configure Vite to build in library mode.
+
+To activate library mode, we need to add the following configuration to `vite.config.ts`:
+
+```ts title="vite.config.ts" {2, 7-11}
+import { defineConfig } from 'vite'
+import { resolve } from 'path'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  build: {
+    lib: {
+      entry: resolve(__dirname, 'lib/main.ts'),
+      formats: ['es']
+    }
+  }
+})
+
+```
+
+<Callout>
+    If the TypeScript linter throws error for `path` and `__dirname`, install the types for Node.js by running `npm i -D @types/node`.
+</Callout>
+
+### Enabling TypeScript for `lib`
+The current config only includes `src` for TypeScript. We need to add `lib` as well.
+
+Add the following to `tsconfig.json`:
+
+```json title="tsconfig.json" {2}
+{
+  "include": ["src", "lib"]
+}
+```
+
+However we would like to avoid `src` and use `lib` only during build process. To do this, we create another config `tsconfig-build.json`:
+
+```json title="tsconfig-build.json"
+{
+  "extends": "./tsconfig.json",
+  "include": ["lib"]
+}
+```
+
+To use this config during build, we need to update the build script in `package.json`:
+
+```json title="package.json" {3}
+{
+  "scripts": {
+    "build": "tsc -p tsconfig-build.json && vite build"
+  }
+}
+```
+
+Now when you run `npm run build`, Vite will only transpile the `lib` folder and `dist` will contain only the transpiled code from `lib`:
+```bash
+📂dist
+  ┣ 📜dubsui.js
+  ┗ 📜vite.svg
+```
+The file vite.svg is in your dist folder because Vite copies all files from the public directory to the output folder. Let's disable this behavior:
+
+```ts title="vite.config.ts" {3}
+...
+build: {
+ copyPublicDir: false,
+}
+```
+We also want to build and ship our __types__ since this is a TypeScript library. To do this, we'll use a vite plugin called `vite-plugin-dts`:
+
+```bash title="Install vite-plugin-dts"
+npm i vite-plugin-dts -D
+```
+
+Add it to the plugins array in `vite.config.ts`:
+
+```ts title="vite.config.ts" {1,5}
+import dts from 'vite-plugin-dts'
+...
+  plugins: [
+    react(),
+    dts({ include: ['lib'] })
+  ],
+```
+
+By default `vite-plugin-dts` will generate types for all files in the `src` and `lib` folders. We don't want to generate types for `src`, so we include `lib` only.
+
+You can now test it out by adding some code to `lib/index.tsx` and running `npm run build`.
+
+``` tsx title="lib/index.tsx"
+export function helloAnything(thing: string): string {
+  return `Hello ${thing}!`
+}
+```
+Run `npm run build` and you will see a new file `index.d.ts` in the `dist` folder. This file contains the types for the `helloAnything` function.
+
+```bash
+📂dist
+┣ 📜index.d.ts
+┗ 📜dubsui.js
+````
+
+## Adding components
+
+You can now start adding your components to `lib`:
+
+```bash
+📂dubsui
+┣ 📂lib
++┃ ┣ 📂components
++┃ ┃ ┣ 📂Accordion
++┃ ┃ ┃ ┗ 📜index.tsx
++┃ ┃ ┣ 📂Button
++┃ ┃ ┃ ┗ 📜index.tsx
++┃ ┃ ┗ 📂ContextMenu
++┃ ┃   ┗ 📜index.tsx
+┃ ┗ 📜index.ts
+...
+```
+
+Be sure to export each component from its `index.tsx` file:
+
+```tsx title="lib/components/Button/index.tsx"
+export function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  return <button {...props} />
+}
+```
+
+And then export all components from `lib/index.ts`:
+
+```ts title="lib/index.ts"
+export * from './components/Accordion'
+export * from './components/Button'
+export * from './components/ContextMenu'
+```
+
+If you run `npm run build` now, you will see that all components are transpiled and the types are generated for them. But the size of the `dubsui.js` file will be huge because it includes all the dependencies of the components especially `react` and `react/jsx-runtime`.
+
+But the consumers of your library will already have these dependencies in their project. So we don't need to include them in our library. To exclude them, we need to add them as external dependencies in the Vite config:
+
+```ts title="vite.config.ts" {3-5}
+build: {
+  ...
+  rollupOptions: {
+         external: ['react', 'react/jsx-runtime', 'tailwindcss', 'react-dom'],
+       }
+}
+```
+
+I've also added `tailwindcss` and `react-dom` as external dependencies as we'll be using them in our components and the consumers will have them in their project.
+
+## Adding Style to Components
+
+We will be using two methods for styling our components:  
+1. Tailwind CSS
+2. CSS Modules
+
+You can opt into either of them or both. We will be using both in our library.
+
+### Tailwind CSS
+Start by installing Tailwind CSS and its dependencies:
+
+```bash
+npm i tailwindcss postcss autoprefixer -D
+```
+
+Now initialize Tailwind CSS by running:
+
+```bash
+npx tailwindcss init
+```
+
+Set up `lib` to use Tailwind CSS by adding it to  `tailwind.config.js` file:
+
+```js title="tailwind.config.js"
+...
+content: [
+  "./lib/**/*.{js,ts,jsx,tsx}",
+],
+...
+```
+Add `index.css` to `lib` folder and add Tailwind CSS directives to it:
+
+```css title="lib/index.css"
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+Import this file in `lib/index.ts`:
+
+```ts title="lib/index.ts" {1}
+import './index.css'
+```
+
+Now, to make sure Tailwind CSS is included in the final build, add the following to `vite.config.ts`:
+
+```ts title="vite.config.ts" {2, 7-11}
+...
+import tailwindcss from 'tailwindcss';
+...
+
+build: {
+  ...
+  css: {
+    postcss: {
+      plugins: [tailwindcss],
+    },
+  },
+}
+```
+
+This should be it for now, we'll inject it after setting up CSS modules. __But we'll configure it further when we add Storybook.__
+
+### CSS Modules
+The Vite suppors CSS Modules out of the box. You can use it by naming your CSS files with the `.module.css` extension.
+
+```bash
+📂dubsui
+┣ 📂lib
+┃ ┣ 📂components
+┃ ┃ ┣ 📂Accordion
+┃ ┃ ┃ ┣ 📜index.tsx
++ ┃ ┃ ┃ ┗ 📜styles.module.css
+┃ ┃ ┣ 📂Button
+┃ ┃ ┃ ┣ 📜index.tsx
++ ┃ ┃ ┃ ┗ 📜styles.module.css
+┃ ┃ ┗ 📂ContextMenu
+┃ ┃   ┣ 📜index.tsx
++ ┃ ┃   ┗ 📜styles.module.css
+┃ ┃ 📜index.css
+┃ ┗ 📜index.ts
+...
+```
+And import it in your component:
+  
+```tsx title="lib/components/Button/index.tsx" {1}
+import styles from './styles.module.css'
+
+export function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  const { className, ...restProps } = props
+  return <button className={`${className} ${styles.button}`} {...restProps} />
+}
+```   
+
+## Shipping the Styles
+After transpiling the library, the styles will be included in the final build.
+
+```bash
+📂dist
+┣ …
+┣ 📜dubsui.js
++ ┗ 📜style.css
+```
+
+However this has two issues:
+1. We have to manually include the CSS file in the consuming project.
+2. The styles are in one file.
+
+### Injecting the CSS
+By default, it is hard to import CSS in vanilla JS. That's why we are shiping CSS as seperate file, allowing the consumer to include it in their project.
+
+__But what if the user has a bundler that can handle CSS?__ (Most apps use bundlers by default like Webpack, Vite, etc.)
+
+Thus, for it to work, the transpiled JavaScript bundle must contain an import statement for the CSS file. To accomplish this we'll be using `vite-plugin-lib-inject-css`
+
+```bash
+npm i vite-plugin-lib-inject-css -D
+```
+Add it to the plugins array in `vite.config.ts`:
+
+```ts title="vite.config.ts" {1,5}
+import injectCss from 'vite-plugin-lib-inject-css'
+...
+  plugins: [
+    react(),
+    injectCss(),
+    dts({ include: ['lib'] })
+  ],
+```
+
+This solve the first issue of manually including the CSS file in the consuming project. But the second issue of having all styles in one file still remains.
+
+### Splitting the CSS
+The `libInjectCSS` plugin  generates a separate CSS file for each chunk and includes an import statement at the beginning of each chunk's output file.
+
+So if you split up the JavaScript code, you end up having separate CSS files that only get imported when the according JavaScript files are imported. This way we can also avoid loading unused CSS as well as avoid importing JS code for components that are not used.
+
+To do this, we need to install `glob`"
+
+```bash
+npm i glob -D
+```
+
+Now change the `vite.config.ts` to:
+
+```ts title="vite.config.ts" {2-4,6-26}
+...
+import { extname, relative, resolve } from 'path'
+import { fileURLToPath } from 'node:url'
+import { glob } from 'glob'
+...
+rollupOptions: {
+  input: Object.fromEntries(
+       glob.sync('lib/**/*.{ts,tsx}', {
+        ignore: ['lib/**/*.stories.tsx', 'lib/**/*.d.ts'],
+       }).map(file => [
+         // The name of the entry point
+         // lib/nested/foo.ts becomes nested/foo
+         relative(
+           'lib',
+           file.slice(0, file.length - extname(file).length)
+         ),
+         // The absolute path to the entry file
+         // lib/nested/foo.ts becomes /project/lib/nested/foo.ts
+         fileURLToPath(new URL(file, import.meta.url))
+       ])
+     ),
+  output: {
+             assetFileNames: 'assets/[name][extname]',
+             entryFileNames: '[name].js',
+           }
+}
+...
+```
+
+Now try transpiling the library by running `npm run build`. You will see that the CSS is split into separate files for each component. And each component is in a separate JS file and Folder.
+
+## Setting up Storybook
+First, install Storybook:
+
+```bash
+npx storybook@latest init
+```
+
+### Adding Stories
+You can add stories by using `.stroies.tsx` files.
+
+We will writing stories along side our components in `lib`. This will help us test our components in isolation. 
+<Callout>
+However this requires some extra configuration to not include the stories in final build, which you can avoid by simply writing stories in `src` folder. If you want to do that, you can skip the 'Exclude Stories from Build' portion.
+</Callout>
+
+```bash
+📂dubsui
+┣ 📂lib
+┃ ┣ 📂components
+┃ ┃ ┣ 📂Accordion
+┃ ┃ ┃ ┣ 📜index.tsx
++ ┃ ┃ ┃ ┗ 📜Accordion.stories.tsx
+┃ ┃ ┃ ┃ ┗ 📜styles.module.css
+┃ ┃ ┣ 📂Button
+┃ ┃ ┃ ┣ 📜index.tsx
++ ┃ ┃ ┃ ┗ 📜Button.stories.tsx
+┃ ┃ ┃ ┃ ┗ 📜styles.module.css
+┃ ┃ ┗ 📂ContextMenu
+┃ ┃   ┣ 📜index.tsx
++ ┃ ┃ ┃ ┗ 📜ContextMeu.stories.tsx
+┃ ┃ ┃ ┃ ┗ 📜styles.module.css
+┃ ┃ 📜index.css
+┃ ┗ 📜index.ts
+...
+```
+
+### Configuring Storybook
+To configure Storybook to work with our library, we need to point it to where our `stories` are located.
+
+Add the following to `.storybook/main.js`:
+
+```js title=".storybook/main.js" {3}
+import type { StorybookConfig } from "@storybook/react-vite";
+
+const config: StorybookConfig = {
+  stories: ["../lib/**/*.mdx", "../lib/**/*.stories.@(js|jsx|mjs|ts|tsx)"], // Or the path to your stories if you have them in a different location
+  ...
+};
+```
+
+### TailwindCSS in Storybook
+Storybook doesn't use Tailwind CSS by default. To use it, we need to add it to the `preview.js` file:
+
+```js title=".storybook/preview.js" {1}
+import '../lib/index.css'
+```
+
+### Exclude Stories from Build
+By default, Storybook will include the stories in the final build. We don't want that. To exclude them during build, we need to modify build config `tsconfig-build.json`:
+
+```json title="tsconfig-build.json" {6-8}
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "lib"
+  ],
+  "exclude": [
+    "**/*.stories.tsx"
+  ]
+}
+```
+
+This way, we get TS linting during development, but the stories are excluded during build.
+
+Also to avoid shiping stories' types, we need to exclude them from `vite-plugin-dts`:
+
+```ts title="vite.config.ts" {5}
+...
+plugins: [
+  react(),
+  libInjectCss(),
+  tsconfigPaths(),
+  dts({ include: ['lib'], exclude: ['**/*.stories.tsx'] })
+],
+...
+```
+
+## Publishing the Library
+
+### Preparing for Publishing
+Before publishing, we need to configure `package.json`:
+
+```json
+{
+  "name": "dubsui",
+  "private": false,
+  "version": "0.0.1",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+}
+```
+
+Add dependencies to `peerDependencies`:
+
+```json
+{
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
+```
+
+Add Side Effects to `package.json` to prevent the CSS files from being accidentally removed by the consumer's tree-shaking efforts:
+
+```json
+{
+  "sideEffects": [
+    "**/*.css",
+  ]
+}
+```
+
+### Publishing
+
+To publish the library, make sure you are logged in to npm:
+
+```bash
+npm login
+```
+
+Then run:
+
+```bash
+npm publish
+```
+
+<Callout>
+    If you are publishing a scoped package, you need to add `--access public` to the publish command.
+
+    __And Make sure to run `npm run build` before publishing.__
+</Callout>
+
+
+## Conclusion
+This is how you can create a React component library using Vite. You can now publish your library to npm and use it in your projects.
+
+You can checkout the [DubsUI](https://www.npmjs.com/package/dubsui) or it [GitHub Repo](https://github.com/jayshiai/dubsui) for reference.
+
+Happy coding!<br/>
+<br/>
+<br/>
+<strong>
+The Three Dubs,<br/>
+DevsTomorrow,<br/>
+@jayshiai
+</strong>

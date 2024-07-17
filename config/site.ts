@@ -7,9 +7,9 @@ export const siteConfig: SiteConfig = {
   url: "https://3dubs.in",
   ogImage: "https://tx.shadcn.com/og.jpg",
   links: {
-    twitter: "",
+    twitter: "https://x.com/jayshiai",
     repo: "https://github.com/jayshiai",
-    github: "https://github.com/jayshiai/buildubs",
+    github: "https://github.com/jayshiai/dubsui",
     dubsui: "https://github.com/jayshiai/dubsui"
   },
 }
