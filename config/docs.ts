@@ -6,15 +6,20 @@ export const docsConfig: DocsConfig = {
       title: "Documentation",
       href: "/docs",
     },
+    
+    {
+      title: "Builder",
+      href: "/builder",
+    },
+    {
+      title: "Blog",
+      href: "/blog",
+    },
     {
       title: "Guides",
       href: "/guides",
     },
   
-    {
-      title: "Builder",
-      href: "/builder",
-    },
     {
       title: "Themer",
       href: "/themer",
