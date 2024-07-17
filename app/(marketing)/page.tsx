@@ -45,8 +45,8 @@ export default async function IndexPage() {
 
   return (
     <>
-      <section className="relative flex space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
-        <div className="relative flex max-h-[50vh] w-1/2 items-center justify-end">
+      <section className="relative flex flex-col md:flex-row space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
+        <div className="relative flex max-h-[50vh] w-full md:w-1/2 items-center justify-end">
           <div className=" -z-50 h-[40vw] w-full overflow-visible  ">
             <Torus />
             <div className="ave absolute left-1/2 top-1/2 -translate-x-[50%] -translate-y-[50%] text-9xl ">
@@ -58,8 +58,8 @@ export default async function IndexPage() {
             </div>
           </div>
         </div>
-        <div className="flex w-1/2 items-center">
-          <div className="container flex max-w-[64rem] flex-col items-end gap-4 text-right">
+        <div className="flex w-full md:w-1/2 items-center">
+          <div className="container flex max-w-[64rem] flex-col items-center md:items-end gap-4 text-center md:text-right">
             {/* <Link
             href={siteConfig.links.twitter}
             className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
@@ -67,14 +67,14 @@ export default async function IndexPage() {
           >
             Follow along on Twitter
           </Link> */}
-            <h1 className="text-right font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
+            <h1 className=" font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
               A Minimalistic Component Library
             </h1>
             <NpmInstall />
-            <p className="w-full text-right leading-normal text-muted-foreground sm:text-xl sm:leading-8">
+            <p className="w-full  leading-normal text-muted-foreground sm:text-xl sm:leading-8">
               Built for React on top of RadixUI.
             </p>
-            <div className="flex w-full  justify-end space-x-4 ">
+            <div className="flex w-full  justify-center md:justify-end space-x-4 ">
               <Link href="/docs" className={cn(buttonVariants({ size: "lg" }))}>
                 Documentation
               </Link>
@@ -178,7 +178,7 @@ export default async function IndexPage() {
               </div>
             </div>
           </div>
-          <div className="relative overflow-hidden rounded-lg bg-transparent p-2">
+          <div className="relative hidden md:block overflow-hidden rounded-lg bg-transparent p-2">
             <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
               {/* <svg viewBox="0 0 24 24" className="h-12 w-12 fill-current">
                 <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.594-7.305h.003z" />
@@ -215,7 +215,7 @@ export default async function IndexPage() {
               </div>
             </div>
           </div>
-          <div className="relative overflow-hidden rounded-lg bg-transparent p-2">
+          <div className="relative hidden md:block overflow-hidden rounded-lg bg-transparent p-2">
             <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
               {/* <svg viewBox="0 0 24 24" className="h-12 w-12 fill-current">
                 <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.594-7.305h.003z" />
