@@ -19,7 +19,7 @@
   <h3 align="center">BuilDubs</h3>
 
   <p align="center">
-    A centralized website for all-things-3Dubs! It acts a documentation website for <a href="https://github.com/jayshiai/DubsUI">dubsui</a>, as well as place for <a href="https://ui.3dubs.in/blog">Blogs</a> and <a href="https://ui.3dubs.in/guides">Guides</a>. <br/><b style="font-size: 20px">It has its own Theme Editor and a fature rich Drag-and-Drop website builder with code generator that emits ready to use JSX.</b>
+    A centralized website for all-things-3Dubs! It acts a documentation website for <a href="https://github.com/jayshiai/DubsUI">dubsui</a>, as well as place for <a href="https://ui.3dubs.in/blog">Blogs</a> and <a href="https://ui.3dubs.in/guides">Guides</a>. <br/><b style="font-size: 20px">It has its own Theme Editor and a feature rich Drag-and-Drop website builder with code generator that emits ready to use JSX.</b>
     <br />
     <a href="https://ui.3dubs.in"><strong>Visit the site »</strong></a>
     <br />
