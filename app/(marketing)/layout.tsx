@@ -21,8 +21,8 @@ export default async function MarketingLayout({
 }: MarketingLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="container z-40 max-w-[1600px] bg-background">
-        <div className="flex h-20 items-center justify-between py-6">
+      <header className="sticky top-0 z-40 w-full  backdrop-blur">
+        <div className="flex container max-w-[1600px] h-20 items-center justify-between py-6">
           <MainNav items={marketingConfig.mainNav} />
           <nav>
             <HoverCard openDelay={100} closeDelay={100}>
