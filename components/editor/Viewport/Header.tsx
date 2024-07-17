@@ -5,12 +5,13 @@ import RedoSvg from "@/public/icons/toolbox/redo.svg"
 import UndoSvg from "@/public/icons/toolbox/undo.svg"
 import { useEditor } from "@craftjs/core"
 import hljs from "highlight.js/lib/core"
+import javascript from "highlight.js/lib/languages/javascript"
 import HTML from "highlight.js/lib/languages/xml"
 import { CheckIcon, ClipboardIcon } from "lucide-react"
 
 import { useToast } from "@/components/ui/use-toast"
 
-import "highlight.js/styles/monokai.css"
+import "highlight.js/styles/atom-one-dark.css"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -29,73 +30,211 @@ import {
 } from "@/components/ui/tooltip"
 
 const containerStyle = (props, level) => `
-  ${indent(level)} display: flex;
-  ${indent(level)} flex-direction: ${props.flexDirection};
-  ${indent(level)} align-items: ${props.alignItems};
-  ${indent(level)} justify-content: ${props.justifyContent};
-  ${indent(level)} padding: ${props.padding.map((p) => `${p}px`).join(" ")};
-  ${indent(level)} margin: ${props.margin.map((m) => `${m}px`).join(" ")};
-  ${indent(level)} background: rgba(${props.background.r}, ${
+  ${indent(level)} display: "flex",
+  ${indent(level)} flexDirection: "${props.flexDirection}",
+  ${indent(level)} alignItems: "${props.alignItems}",
+  ${indent(level)} justifyContent: "${props.justifyContent}",
+  ${indent(level)} padding: "${props.padding.map((p) => `${p}px`).join(" ")}",
+  ${indent(level)} margin: "${props.margin.map((m) => `${m}px`).join(" ")}",
+  ${indent(level)} background: "rgba(${props.background.r}, ${
   props.background.g
-}, ${props.background.b}, ${props.background.a});
-  ${indent(level)} color: rgba(${props.color.r}, ${props.color.g}, ${
+}, ${props.background.b}, ${props.background.a})",
+  ${indent(level)} color: "rgba(${props.color.r}, ${props.color.g}, ${
   props.color.b
-}, ${props.color.a});
-  ${indent(level)} box-shadow: 0px 0px ${props.shadow}px rgba(0, 0, 0, 0.5);
-  ${indent(level)} border-radius: ${props.radius}px;
-  ${indent(level)} width: ${props.width};
-  ${indent(level)} height: ${props.height};
+}, ${props.color.a})",
+  ${indent(level)} boxShadow: "0px 0px ${props.shadow}px rgba(0, 0, 0, 0.5)",
+  ${indent(level)} borderRadius: "${props.radius}px",
+  ${indent(level)} width: "${props.width}",
+  ${indent(level)} height: "${props.height}",
 `
 
 const textStyle = (props, level) => `
-  ${indent(level)} font-size: ${props.fontSize}px;
-  ${indent(level)} text-align: ${props.textAlign};
-  ${indent(level)} font-weight: ${props.fontWeight};
-  ${indent(level)} color: rgba(${props.color.r}, ${props.color.g}, ${
+  ${indent(level)} fontSize: "${props.fontSize}px",
+  ${indent(level)} textAlign: "${props.textAlign}",
+  ${indent(level)} fontWeight: "${props.fontWeight}",
+  ${indent(level)} color: "rgba(${props.color.r}, ${props.color.g}, ${
   props.color.b
-}, ${props.color.a});
-  ${indent(level)} margin: ${props.margin.map((m) => `${m}px`).join(" ")};
-  ${indent(level)} text-shadow: 0px 0px ${props.shadow[0]}px rgba(0, 0, 0, 0.5);
+}, ${props.color.a})",
+  ${indent(level)} margin: "${props.margin.map((m) => `${m}px`).join(" ")}",
+  ${indent(level)} textShadow: "0px 0px ${
+  props.shadow[0]
+}px rgba(0, 0, 0, 0.5)",
 `
 
 const separatorStyle = (props) => `
-  margin: ${props.margin.map((m) => `${m}px`).join(" ")};
+  margin: "${props.margin.map((m) => `${m}px`).join(" ")}",
 `
 
 const indent = (level) => "  ".repeat(level)
+const fnString1 = `
+const MyComponent = () => {
+  return (
+  
+  `
+const fnString2 = ` )
+}
 
-const generateJSX = (node, data, level = 0) => {
-  const { type, props, nodes, displayName } = node
+export default MyComponent
+`
+
+const generateJSX = (node, data, level = 0, imports = new Set()) => {
+  const { type, props, nodes, linkedNodes, displayName } = node
   let children = ""
 
   if (nodes && nodes.length > 0) {
     children = nodes
-      .map((childId) => generateJSX(data[childId], data, level + 1))
+      .map((childId) => generateJSX(data[childId], data, level + 1, imports))
       .join("\n")
   }
 
   switch (type.resolvedName) {
     case "Container":
-      return ` ${indent(level)} <div style="${containerStyle(
+      return ` ${indent(level)} <div style={{${containerStyle(
         props,
         level
-      )} ${indent(level)} "> \n${children}\n ${indent(level)} </div>`
+      )}}} ${indent(level)} > \n${children}\n ${indent(level)} </div>`
     case "Text":
-      return ` ${indent(level)} <p style="${textStyle(props, level)} ${indent(
+      return ` ${indent(level)} <p style={{${textStyle(
+        props,
         level
-      )} ">\n ${indent(level)} ${props.text}\n ${indent(level)} </p>`
+      )}}} ${indent(level)} >\n ${indent(level)} ${props.text}\n ${indent(
+        level
+      )} </p>`
     case "SeparatorNode":
-      return ` ${indent(level)} <hr style="${separatorStyle(props)}" />`
+      imports.add("Separator")
+      return ` ${indent(level)} <Separator style={{${separatorStyle(
+        props
+      )}}} />`
+    case "ButtonNode":
+      imports.add("Button")
+      return `
+      <Button
+      className="rounded w-full px-4 py-2"
+      style={{
+        backgroundColor: "rgba(${props.color.r}, ${props.color.g}, ${
+        props.color.b
+      }, ${props.color.a})",
+        margin: "${props.margin.map((m) => `${m}px`).join(" ")}",       
+      }}
+      variant={"${props.buttonStyle}"}     
+    >
+      <p
+      style={{
+        color: "rgba(${props.textComponent.color.r}, ${
+        props.textComponent.color.g
+      }, ${props.textComponent.color.b}, ${props.textComponent.color.a})",
+        margin: "${props.textComponent.margin.map((m) => `${m}px`).join(" ")}",
+        textShadow: "0px 0px ${
+          props.textComponent.shadow
+        }px rgba(0, 0, 0, 0.5)",
+        fontSize: "${props.textComponent.fontSize}px",
+        textAlign: "${props.textComponent.textAlign}",
+        fontWeight: "${props.textComponent.fontWeight}",
+      }} 
+       > ${props.text}</p>
+    </Button>
+    `
+    case "AvatarNode":
+      imports.add("AvatarRoot")
+      imports.add("AvatarImage")
+      imports.add("AvatarFallback")
+      return `
+      <AvatarRoot
+      className="h-24 w-24 rounded-full"
+      style={{
+        margin: "${props.margin.map((m) => `${m}px`).join(" ")}",
+        padding: "${props.padding.map((p) => `${p}px`).join(" ")}",
+        height: "${props.size}px",
+        width: "${props.size}px",
+      }}
+      >
+        <AvatarImage src={"${props.link.replace(" ", "")}"} />
+        <AvatarFallback>avatar</AvatarFallback>
+      </AvatarRoot>`
+    case "AlertDialogNode":
+      imports.add("AlertDialogRoot")
+      imports.add("AlertDialogTrigger")
+      imports.add("AlertDialogContent")
+      imports.add("AlertDialogHeader")
+      imports.add("AlertDialogTitle")
+      imports.add("AlertDialogDescription")
+      imports.add("AlertDialogFooter")
+      imports.add("AlertDialogCancel")
+      imports.add("AlertDialogAction")
+      imports.add("Button")
+      return `
+      <AlertDialogRoot>
+        <AlertDialogTrigger asChild>
+          <Button
+            variant={"${props.variant}"}
+            style={{
+              margin: "${props.margin.map((m) => `${m}px`).join(" ")}",
+              padding: "${props.padding.map((p) => `${p}px`).join(" ")}",
+            }}
+          >
+            Show Dialog
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete your
+              account and remove your data from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction>Continue</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialogRoot>`
+    case "AccordionNode":
+      if (
+        data[linkedNodes.accordionCanvas].nodes &&
+        data[linkedNodes.accordionCanvas].nodes.length > 0
+      ) {
+        imports.add("AccordionRoot")
+        imports.add("AccordionItem")
+        imports.add("AccordionTrigger")
+        imports.add("AccordionContent")
+        return `
+      <AccordionRoot style={{width:"100%"}}  type="single" collapsible>
+        ${data[linkedNodes.accordionCanvas].nodes
+          .map((childId) =>
+            generateJSX(data[childId], data, level + 1, imports)
+          )
+          .join("\n")}
+      </AccordionRoot>
+      `
+      } else {
+        return "{/* Add Accordion Items */}"
+      }
+    case "AccordionItemNode":
+      return ` ${indent(level)} <AccordionItem  value={${
+        props.value
+      }}> \n${children}\n ${indent(level)} </AccordionItem>`
+    case "AccordionTrigger":
+      return ` ${indent(level)} <AccordionTrigger> \n${children}\n ${indent(
+        level
+      )} </AccordionTrigger>`
+    case "AccordionContent":
+      return ` ${indent(level)} <AccordionContent> \n${children}\n ${indent(
+        level
+      )} </AccordionContent>`
     default:
       return ""
   }
 }
 
-const generateCode = (data) => {
-  // console.log(data)
-  const codeString = generateJSX(data.ROOT, data)
-
-  return codeString
+const generateImportStatements = (imports) => {
+  const importStatements = `
+  "use client";
+  import { 
+    ${Array.from(imports).join(", \n  ")}
+  } from 'dubsui';`
+  return importStatements
 }
 
 export const Header = () => {
@@ -107,17 +246,27 @@ export const Header = () => {
     })
   )
   const [code, setCode] = React.useState(null)
+  const [importStatements, setImportStatements] = React.useState(null)
   const [highlightedCode, setHighlightedCode] = React.useState("")
-  hljs.registerLanguage("javascript", HTML)
-  const replaceNbsp = (str) => {
-    return str.replace(/(&nbsp;)+/g, (match) => " ".repeat(match.length / 6))
-  }
-  const highlightCode = (code) => {
+  const [copyCode, setCopyCode] = React.useState("")
+  hljs.registerLanguage("html", HTML)
+  hljs.registerLanguage("javascript", javascript)
+
+  const highlightCode = (code, importStatements) => {
     const highlightedCodeHJ = hljs.highlight(code, {
-      language: "HTML",
+      language: "html",
     }).value
 
-    setHighlightedCode(replaceNbsp(highlightedCodeHJ))
+    const highlightedImports = hljs.highlight(importStatements + fnString1, {
+      language: "javascript",
+    }).value
+
+    const highlightedEnd = hljs.highlight(fnString2, {
+      language: "javascript",
+    }).value
+
+    setCopyCode(importStatements + fnString1 + code + fnString2)
+    setHighlightedCode(highlightedImports + highlightedCodeHJ + highlightedEnd)
     //   await codeToHtml(code, {
     //     lang: "javascript",
     //     theme: "vitesse-dark",
@@ -142,7 +291,7 @@ export const Header = () => {
   }
   React.useEffect(() => {
     if (code) {
-      highlightCode(code)
+      highlightCode(code, importStatements)
     }
   }, [code])
   return (
@@ -189,8 +338,13 @@ export const Header = () => {
                 <Button
                   className="ml-2"
                   onClick={() => {
-                    const CodeString = generateCode(query.getSerializedNodes())
+                    const data = query.getSerializedNodes()
+                    const imports = new Set()
+                    const CodeString = generateJSX(data.ROOT, data, 0, imports)
+                    const importStatements = generateImportStatements(imports)
+                    console.log(data)
 
+                    setImportStatements(importStatements)
                     setCode(CodeString)
                   }}
                 >
@@ -215,7 +369,7 @@ export const Header = () => {
                     <pre className="relative overflow-x-auto bg-muted rounded-md  p-4 font-mono text-xs text-white">
                       <div className="absolute top-1 right-1">
                         <span
-                          onClick={() => copyToClipboard(code)}
+                          onClick={() => copyToClipboard(copyCode)}
                           className="flex w-fit cursor-pointer items-center gap-2 rounded-md bg-background p-2 font-mono text-foreground"
                         >
                           {hasCopied ? (

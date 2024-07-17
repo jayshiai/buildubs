@@ -41,7 +41,6 @@ export const ButtonNode: UserComponent<ButtonProps> = (props: any) => {
       variant={props.buttonStyle}
       {...otherProps}
     >
-      {children}
       <Text {...textComponent} text={text} color={color} />
     </Button>
   )
