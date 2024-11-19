@@ -56,6 +56,10 @@ export default async function IndexPage() {
                 fontFamily={"ave"}
                 theme={["#AAAAAA", "#ffffff", "#555555"]}
               />
+              <p className="md:text-lg text-base text-center font-normal">
+                In loving memory of <span className="font-bold">Manu,</span> may
+                she rest in peace and abundance of treats.
+              </p>
             </div>
           </div>
         </div>

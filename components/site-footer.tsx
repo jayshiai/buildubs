@@ -20,16 +20,15 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
               className="font-medium underline underline-offset-4"
             >
               jayshiai
-            </a>
-            . Hosted on{" "}
+            </a>{" "}
+            using{" "}
             <a
-              href="https://vercel.com"
-              target="_blank"
-              rel="noreferrer"
+              href="https://ui.3dubs.in"
               className="font-medium underline underline-offset-4"
             >
-              Vercel
-            </a>
+              DubsUI
+            </a>{" "}
+            Dedicated to Manu, Best Friend that I didn{"'"}t deserve.
           </p>
         </div>
         <ModeToggle />
