@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation"
 
-import { getCurrentUser } from "@/lib/session"
+import { getCurrentUserServer } from "@/lib/serversession"
 import { DashboardHeader } from "@/components/header"
 import { DashboardShell } from "@/components/shell"
 
@@ -12,7 +12,7 @@ export const metadata = {
 }
 
 export default async function SettingsPage() {
-  const user = await getCurrentUser()
+  const user = await getCurrentUserServer()
 
   if (!user) {
     redirect("/login")

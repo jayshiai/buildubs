@@ -6,7 +6,7 @@ import { createClient } from "@/utils/supabase/client"
 
 import { Icons } from "@/components/icons"
 
-export default function LoginPage() {
+export default function LogoutPage() {
   const supabase = createClient()
   const router = useRouter()
 
