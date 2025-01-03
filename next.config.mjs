@@ -1,7 +1,6 @@
-import { withContentlayer } from "next-contentlayer";
+import { withContentlayer } from "next-contentlayer"
 
-
-import "./env.mjs";
+import "./env.mjs"
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -20,9 +19,9 @@ const nextConfig = {
         and: [/\.(js|ts|jsx|tsx)$/],
       },
       use: ["@svgr/webpack"],
-    });
-    return config;
+    })
+    return config
   },
-};
+}
 
 export default withContentlayer(nextConfig)

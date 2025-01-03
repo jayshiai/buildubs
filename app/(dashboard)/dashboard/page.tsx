@@ -1,60 +1,66 @@
+"use client"
+
+import { useEffect, useState } from "react"
+import Link from "next/link"
 import { redirect } from "next/navigation"
 
-import { authOptions } from "@/lib/auth"
-import { db } from "@/lib/db"
-import { getCurrentUser } from "@/lib/session"
+import { getCurrentUser, getSites } from "@/lib/session"
+import { Button } from "@/components/ui/button"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { DashboardHeader } from "@/components/header"
-import { PostCreateButton } from "@/components/post-create-button"
+import { Icons } from "@/components/icons"
 import { PostItem } from "@/components/post-item"
 import { DashboardShell } from "@/components/shell"
 
-export const metadata = {
-  title: "Dashboard",
-}
+export default function DashboardPage() {
+  const [user, setUser] = useState(null)
+  const [sites, setSites] = useState([])
+  const [loading, setLoading] = useState(true)
 
-export default async function DashboardPage() {
-  const user = await getCurrentUser()
+  useEffect(() => {
+    const fetchData = async () => {
+      const user = await getCurrentUser()
+      if (!user) {
+        redirect("/login")
+      }
+      setUser(user)
+      const sites = await getSites(user.id)
+      setSites(sites)
+      setLoading(false)
+    }
 
-  if (!user) {
-    redirect(authOptions?.pages?.signIn || "/login")
+    fetchData()
+  }, [])
+
+  if (loading) {
+    return <div>Loading...</div>
   }
-
-  const posts = await db.post.findMany({
-    where: {
-      authorId: user.id,
-    },
-    select: {
-      id: true,
-      title: true,
-      published: true,
-      createdAt: true,
-    },
-    orderBy: {
-      updatedAt: "desc",
-    },
-  })
 
   return (
     <DashboardShell>
-      <DashboardHeader heading="Posts" text="Create and manage posts.">
-        <PostCreateButton />
+      <DashboardHeader heading="Sites" text="Create and manage sites.">
+        {/* Add a button for creating sites, and call `handleSiteCreated` when successful */}
       </DashboardHeader>
       <div>
-        {posts?.length ? (
+        {sites?.length ? (
           <div className="divide-y divide-border rounded-md border">
-            {posts.map((post) => (
-              <PostItem key={post.id} post={post} />
+            {sites.map((site) => (
+              <PostItem key={site.id} post={site} />
             ))}
           </div>
         ) : (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon name="post" />
-            <EmptyPlaceholder.Title>No posts created</EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Title>No sites created</EmptyPlaceholder.Title>
             <EmptyPlaceholder.Description>
-              You don&apos;t have any posts yet. Start creating content.
+              You don&apos;t have any sites yet. Start creating using our
+              Builder.
             </EmptyPlaceholder.Description>
-            <PostCreateButton variant="outline" />
+            <Link href="/builder">
+              <Button variant="outline">
+                <Icons.add className="mr-2 h-4 w-4" /> Create a site
+              </Button>
+            </Link>
           </EmptyPlaceholder>
         )}
       </div>

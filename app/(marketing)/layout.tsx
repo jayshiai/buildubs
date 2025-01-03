@@ -28,7 +28,7 @@ export default async function MarketingLayout({
             <HoverCard openDelay={100} closeDelay={100}>
               <HoverCardTrigger asChild>
                 <a
-                  href="https://www.3dubs.in/"
+                  href="https://og.3dubs.in/"
                   className={cn(
                     buttonVariants({ variant: "default", size: "sm" }),
                     "ave px-4 hover:border hover:border-primary hover:bg-background hover:text-primary"

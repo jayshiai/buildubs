@@ -48,16 +48,8 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
           <Link href="/dashboard/settings">Settings</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          className="cursor-pointer"
-          onSelect={(event) => {
-            event.preventDefault()
-            signOut({
-              callbackUrl: `${window.location.origin}/login`,
-            })
-          }}
-        >
-          Sign out
+        <DropdownMenuItem>
+          <a href="/logout">Sign out</a>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

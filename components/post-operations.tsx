@@ -3,6 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { createClient } from "@/utils/supabase/client"
 import { Post } from "@prisma/client"
 
 import {
@@ -25,15 +26,19 @@ import {
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 
-async function deletePost(postId: string) {
-  const response = await fetch(`/api/posts/${postId}`, {
-    method: "DELETE",
-  })
+async function deleteSite(postId: string) {
+  const supabase = createClient()
+  const sess = await supabase.auth.getSession()
+  const userId = sess?.data?.session?.user?.id
+  const { data, error } = await supabase
+    .from("domains")
+    .delete()
+    .eq("user_id", userId)
 
-  if (!response?.ok) {
+  if (error) {
     toast({
       title: "Something went wrong.",
-      description: "Your post was not deleted. Please try again.",
+      description: "Your site was not deleted. Please try again.",
       variant: "destructive",
     })
   }
@@ -42,7 +47,7 @@ async function deletePost(postId: string) {
 }
 
 interface PostOperationsProps {
-  post: Pick<Post, "id" | "title">
+  post: Pick<Post, "id">
 }
 
 export function PostOperations({ post }: PostOperationsProps) {
@@ -89,7 +94,7 @@ export function PostOperations({ post }: PostOperationsProps) {
                 event.preventDefault()
                 setIsDeleteLoading(true)
 
-                const deleted = await deletePost(post.id)
+                const deleted = await deleteSite(post.id)
 
                 if (deleted) {
                   setIsDeleteLoading(false)

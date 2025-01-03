@@ -50,7 +50,7 @@ const generateCssVariables = () => {
 
   let darkThemeStore = localStorage.getItem("customDarkTheme")
   let DarkTheme = darkThemeStore ? JSON.parse(darkThemeStore) : darkTheme
-  console.log("light: ", theme, "dark:", DarkTheme)
+  // console.log("light: ", theme, "dark:", DarkTheme)
   return `
   :root {
     --background: ${theme.background};
@@ -172,7 +172,7 @@ const ThemeCustomizer: React.FC = () => {
       }
     }
 
-    console.log(generateCssVariables())
+    // console.log(generateCssVariables())
     document.addEventListener("keydown", handleKeydown)
     return () => document.removeEventListener("keydown", handleKeydown)
   }, [setOpen, open, keyboardInputElement])
@@ -196,7 +196,7 @@ const ThemeCustomizer: React.FC = () => {
     Colors.fields.forEach((field) => {
       updateTheme(field as keyof typeof theme, color)
     })
-    console.log("Color:", color, "Theme:", theme.background)
+    // console.log("Color:", color, "Theme:", theme.background)
   }
 
   const [currentPreset, setCurrentPreset] = useState(

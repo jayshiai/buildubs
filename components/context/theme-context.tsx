@@ -144,7 +144,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     if (storedTheme) {
       setTheme(JSON.parse(storedTheme) as Theme)
     } else {
-      console.log(resolvedTheme)
+      // console.log(resolvedTheme)
       setTheme(resolvedTheme === "dark" ? darkTheme : lightTheme)
     }
     // Update the theme when the resolvedTheme changes

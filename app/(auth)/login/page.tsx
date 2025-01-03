@@ -1,17 +1,17 @@
-import { Metadata } from "next"
+"use client"
+
 import Link from "next/link"
+import { createClient } from "@/utils/supabase/client"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
-import { UserAuthForm } from "@/components/user-auth-form"
 
-export const metadata: Metadata = {
-  title: "Login",
-  description: "Login to your account",
-}
-
-export default function LoginPage() {
+export default async function LoginPage() {
+  const supabase = createClient()
+  supabase.auth.signInWithOAuth({
+    provider: "google",
+  })
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
       <Link
@@ -33,18 +33,9 @@ export default function LoginPage() {
             Welcome back
           </h1>
           <p className="text-sm text-muted-foreground">
-            Enter your email to sign in to your account
+            Wait while we log you in
           </p>
         </div>
-        <UserAuthForm />
-        <p className="px-8 text-center text-sm text-muted-foreground">
-          <Link
-            href="/register"
-            className="hover:text-brand underline underline-offset-4"
-          >
-            Don&apos;t have an account? Sign Up
-          </Link>
-        </p>
       </div>
     </div>
   )

@@ -18,11 +18,11 @@ const Torus = () => {
       setColor("#000")
       setTextColor("#fff")
     }
-    console.log(resolvedTheme, color, textColor)
+    // console.log(resolvedTheme, color, textColor)
   }, [resolvedTheme])
 
   React.useEffect(() => {
-    console.log("Color or TextColor changed:", { color, textColor })
+    // console.log("Color or TextColor changed:", { color, textColor })
   }, [color, textColor])
   return (
     <DubsTorus
