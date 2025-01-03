@@ -4,7 +4,6 @@ import * as React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { createClient } from "@/utils/supabase/client"
-import { Post } from "@prisma/client"
 
 import {
   AlertDialog,
@@ -44,6 +43,10 @@ async function deleteSite(postId: string) {
   }
 
   return true
+}
+
+interface Post {
+  id: string
 }
 
 interface PostOperationsProps {

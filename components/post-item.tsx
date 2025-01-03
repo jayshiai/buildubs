@@ -1,9 +1,11 @@
 import Link from "next/link"
-import { Post } from "@prisma/client"
 
-import { formatDate } from "@/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
 import { PostOperations } from "@/components/post-operations"
+
+interface Post {
+  id: string
+}
 
 interface PostItemProps {
   post: Pick<Post, "id">

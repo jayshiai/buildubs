@@ -1,4 +1,4 @@
-import { User } from "@prisma/client"
+
 import type { Icon } from "lucide-react"
 
 import { Icons } from "@/components/icons"
@@ -58,6 +58,10 @@ export type SubscriptionPlan = {
   name: string
   description: string
   stripePriceId: string
+}
+interface User {
+  id: string
+  name: string
 }
 
 export type UserSubscriptionPlan = SubscriptionPlan &

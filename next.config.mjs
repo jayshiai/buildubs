@@ -8,9 +8,6 @@ const nextConfig = {
   images: {
     domains: ["avatars.githubusercontent.com"],
   },
-  experimental: {
-    serverComponentsExternalPackages: ["@prisma/client"],
-  },
   webpack(config, options) {
     // SVG Loader for inline SVGs
     config.module.rules.push({
