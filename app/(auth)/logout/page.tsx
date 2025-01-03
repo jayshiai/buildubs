@@ -12,7 +12,8 @@ export default function LogoutPage() {
 
   useEffect(() => {
     const signOut = async () => {
-      await supabase.auth.signOut()
+      const { error } = await supabase.auth.signOut()
+      console.log("User signed out: ", error)
       router.push("/") // Redirect to home page
     }
 
