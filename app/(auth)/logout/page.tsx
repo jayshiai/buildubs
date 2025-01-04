@@ -7,10 +7,10 @@ import { createClient } from "@/utils/supabase/client"
 import { Icons } from "@/components/icons"
 
 export default function LogoutPage() {
-  const supabase = createClient()
   const router = useRouter()
-
   useEffect(() => {
+    const supabase = createClient()
+
     const signOut = async () => {
       const { error } = await supabase.auth.signOut()
       console.log("User signed out: ", error)
@@ -18,7 +18,7 @@ export default function LogoutPage() {
     }
 
     signOut()
-  }, [supabase, router])
+  }, [router])
 
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
