@@ -16,6 +16,7 @@ interface PostItemProps {
 
 export function PostItem({ post }: PostItemProps) {
   const [domain, setDomain] = useState(post.id)
+  if (!domain) return null
   return (
     <div className="flex items-center justify-between p-4">
       <div className="grid gap-1">

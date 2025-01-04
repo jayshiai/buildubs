@@ -1,10 +1,7 @@
 "use client"
 
 import * as React from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { createClient } from "@/utils/supabase/client"
-import { set } from "date-fns"
 import { Loader2 } from "lucide-react"
 
 import {
@@ -63,7 +60,6 @@ interface PostOperationsProps {
 }
 
 export function PostOperations({ post, setDoamin }: PostOperationsProps) {
-  const router = useRouter()
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false)
 
@@ -185,10 +181,10 @@ export function PostOperations({ post, setDoamin }: PostOperationsProps) {
                 if (deleted) {
                   setIsDeleteLoading(false)
                   setShowDeleteAlert(false)
-                  router.refresh()
+                  setDoamin(null)
                 }
               }}
-              className="bg-red-600 focus:ring-red-600"
+              className="bg-red-600 focus:ring-red-600 bg-destructive"
             >
               {isDeleteLoading ? (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
