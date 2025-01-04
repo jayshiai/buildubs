@@ -1,17 +1,19 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Link from "next/link"
 import { Editor, Frame } from "@craftjs/core"
 import LZUTF8 from "lzutf8"
 
 import { getSiteData } from "@/lib/editorUtils/fetch"
+import { cn } from "@/lib/utils"
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Container, Text } from "@/components/editor/selectors"
 import AccordionNode, {
   AccordionItemNode,
@@ -69,7 +71,21 @@ export default function SiteHomePage() {
   }
 
   if (error) {
-    return <div>{error}</div> // Show error message if there was an issue
+    return (
+      <div className="h-screen w-screen flex  flex-col gap-4 justify-center items-center">
+        <p> {error}</p>
+        <Link
+          href="https://ui.3dubs.in/"
+          className={cn(
+            buttonVariants({ variant: "ghost" }),
+            "absolute left-4 top-4 md:left-8 md:top-8"
+          )}
+        >
+          <Icons.chevronLeft className="mr-2 h-4 w-4" />
+          Back
+        </Link>
+      </div>
+    ) // Show error message if there was an issue
   }
 
   return (
