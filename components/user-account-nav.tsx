@@ -1,8 +1,10 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { createClient } from "@/utils/supabase/client"
 import { User } from "next-auth"
-import { signOut } from "next-auth/react"
 
 import {
   DropdownMenu,
@@ -18,6 +20,38 @@ interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function UserAccountNav({ user }: UserAccountNavProps) {
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleSignOut = async () => {
+    try {
+      setIsLoading(true)
+      const supabase = createClient()
+
+      if (!supabase) {
+        throw new Error("Failed to initialize Supabase client")
+      }
+
+      const { error } = await supabase.auth.signOut()
+
+      if (error) {
+        throw error
+      }
+
+      // Clear any local storage items if needed
+      localStorage.removeItem("supabase.auth.token")
+
+      console.log("User signed out successfully")
+      router.push("/")
+      router.refresh()
+    } catch (error) {
+      console.error("Error signing out:", error)
+      // You might want to add a toast notification here
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -48,8 +82,15 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
           <Link href="/dashboard/settings">Settings</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <a href="/logout">Sign out</a>
+        <DropdownMenuItem
+          className="cursor-pointer"
+          disabled={isLoading}
+          onSelect={(event) => {
+            event.preventDefault()
+            handleSignOut()
+          }}
+        >
+          {isLoading ? "Signing out..." : "Sign out"}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
