@@ -18,7 +18,7 @@ export default function LogoutPage() {
     }
 
     signOut()
-  }, [router])
+  }, [])
 
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
