@@ -82,3 +82,35 @@ export const insertDomainToDatabase = async (supabase: SupabaseClient , selected
     console.log("Domain successfully inserted:", selectedDomain);
     return true;
   };
+
+
+  export const updateDomainToDatabase = async (supabase: SupabaseClient , selectedDomain: string) => {
+    const { data: {user} } = await supabase.auth.getUser();  // Get the current logged-in user
+
+    if (!user) {
+      console.error("User not found.");
+      return false;
+    }
+  
+    const { error: upsertError } = await supabase
+      .from('domains')
+      .upsert([{ user_id: user.id, domain: selectedDomain }]);
+  
+    if (upsertError) {
+      console.error("Error upserting domain:", upsertError);
+      // Handle insertion error if needed
+      return false;
+    }
+
+    const { error: deployedError } = await supabase
+    .from('deployed_data')
+    .update({ domain: selectedDomain })
+    .eq('user_id', user.id);
+
+    if (deployedError) {
+      console.error("Error updating deployed data:", deployedError);
+      return false;
+    }
+    console.log("Domain successfully inserted:", selectedDomain);
+    return true;
+  };

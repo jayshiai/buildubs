@@ -4,7 +4,13 @@ import * as React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { createClient } from "@/utils/supabase/client"
+import { set } from "date-fns"
+import { Loader2 } from "lucide-react"
 
+import {
+  checkIfDomainExists,
+  updateDomainToDatabase,
+} from "@/lib/editorUtils/deploy"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,6 +21,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,6 +29,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 
@@ -51,15 +59,90 @@ interface Post {
 
 interface PostOperationsProps {
   post: Pick<Post, "id">
+  setDoamin: (domain: string) => void
 }
 
-export function PostOperations({ post }: PostOperationsProps) {
+export function PostOperations({ post, setDoamin }: PostOperationsProps) {
   const router = useRouter()
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false)
 
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false)
+  const [selectedDomain, setSelectedDomain] = React.useState("")
+  const [domainError, setDomainError] = React.useState("")
+  const [isDeploying, setIsDeploying] = React.useState(false)
+
+  const handleDomainSelect = async () => {
+    const supabase = createClient()
+    setDomainError("")
+    setIsDeploying(true)
+    console.log("Selected domain:", selectedDomain)
+    if (selectedDomain == "ui" || selectedDomain == "cy") {
+      setDomainError(
+        "This domain is reserved. Please choose a different domain."
+      )
+      setIsDeploying(false)
+      return
+    }
+    const isDomainTaken = await checkIfDomainExists(supabase, selectedDomain)
+    console.log("Is domain taken:", isDomainTaken)
+    if (isDomainTaken) {
+      setDomainError(
+        "The selected domain already exists. Please choose a different domain."
+      )
+      setIsDeploying(false)
+      return
+    }
+
+    console.log("Inserting domain to database")
+
+    const updated = await updateDomainToDatabase(supabase, selectedDomain)
+
+    if (!updated) {
+      setDomainError("Error updating domain")
+      return
+    }
+    setIsDeploying(false)
+    setIsDialogOpen(false)
+    setDoamin(selectedDomain)
+  }
   return (
     <>
+      <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Select a Domain</AlertDialogTitle>
+            <AlertDialogDescription>
+              Please enter a unique domain name for your deployment.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="p-4">
+            <Input
+              type="text"
+              placeholder="Enter domain name"
+              value={selectedDomain}
+              onChange={(e) => setSelectedDomain(e.target.value)}
+              className="input"
+            />
+            {domainError && (
+              <p className=" text-destructive text-sm mt-2">{domainError}</p>
+            )}
+          </div>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setIsDialogOpen(false)}>
+              Cancel
+            </AlertDialogCancel>
+            <Button
+              onClick={handleDomainSelect}
+              disabled={isDeploying || !selectedDomain}
+              className="gap-2"
+            >
+              Submit
+              <Loader2 className={isDeploying ? "animate-spin" : "hidden"} />
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <DropdownMenu>
         <DropdownMenuTrigger className="flex h-8 w-8 items-center justify-center rounded-md border transition-colors hover:bg-muted">
           <Icons.ellipsis className="h-4 w-4" />
@@ -67,9 +150,9 @@ export function PostOperations({ post }: PostOperationsProps) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem>
-            <Link href={`/editor/${post.id}`} className="flex w-full">
+            <div onClick={() => setIsDialogOpen(true)} className="w-full">
               Edit
-            </Link>
+            </div>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem

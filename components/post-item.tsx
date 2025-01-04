@@ -1,3 +1,6 @@
+"use client"
+
+import { useState } from "react"
 import Link from "next/link"
 
 import { Skeleton } from "@/components/ui/skeleton"
@@ -12,17 +15,18 @@ interface PostItemProps {
 }
 
 export function PostItem({ post }: PostItemProps) {
+  const [domain, setDomain] = useState(post.id)
   return (
     <div className="flex items-center justify-between p-4">
       <div className="grid gap-1">
         <Link
-          href={`https://${post.id}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
+          href={`http://${domain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
           className="font-semibold hover:underline"
         >
-          {post.id}
+          {domain}
         </Link>
       </div>
-      <PostOperations post={{ id: post.id }} />
+      <PostOperations post={{ id: domain }} setDoamin={setDomain} />
     </div>
   )
 }
