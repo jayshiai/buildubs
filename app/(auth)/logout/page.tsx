@@ -14,7 +14,7 @@ export default function LogoutPage() {
     const signOut = async () => {
       const { error } = await supabase.auth.signOut()
       console.log("User signed out: ", error)
-      router.push("/") // Redirect to home page
+      router.replace("/")
     }
 
     signOut()
