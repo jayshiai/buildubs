@@ -19,6 +19,7 @@ export async function middleware(req: NextRequest) {
     return await updateSession(req);
   }
 
+  console.log("hostname", hostname);
   // Rewrite based on the hostname and ensure production domains are properly used
   if (hostname === `localhost:3000`) {
     // Development environment: Allow local URLs
@@ -32,7 +33,7 @@ export async function middleware(req: NextRequest) {
 
   // Check for the domain with UI prefix, and rewrite accordingly
   if (hostname === `ui.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
-    return NextResponse.rewrite(new URL(`/`, req.url));
+    return NextResponse.rewrite(new URL(`/${path}`, req.url));
   }
 
   // Default rewrite for other domains: `/[domain]/[slug]`
