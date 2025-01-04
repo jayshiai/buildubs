@@ -26,14 +26,10 @@ export async function middleware(req: NextRequest) {
     return NextResponse.rewrite(new URL(`${path}`, req.url));
   }
 
-  // Production environment: Rewrite URLs to the correct domain
-  if (hostname === process.env.NEXT_PUBLIC_ROOT_DOMAIN) {
-    return NextResponse.rewrite(new URL(`/${path}`, req.url));
-  }
 
   // Check for the domain with UI prefix, and rewrite accordingly
   if (hostname === `ui.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
-    return NextResponse.rewrite(new URL(`/${path}`, req.url));
+    return NextResponse.rewrite(new URL(`${path}`, req.url));
   }
 
   // Default rewrite for other domains: `/[domain]/[slug]`
