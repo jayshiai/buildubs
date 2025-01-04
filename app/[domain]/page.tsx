@@ -63,7 +63,7 @@ export default function SiteHomePage() {
   if (loading) {
     return (
       <div className="h-screen w-screen flex justify-center items-center text-3xl">
-        Loading...
+        <Icons.logo className=" animate-spin h-10 w-10" />
       </div>
     ) // Show loading spinner or placeholder
   }

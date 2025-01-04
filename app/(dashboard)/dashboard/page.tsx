@@ -33,14 +33,19 @@ export default function DashboardPage() {
   }, [])
 
   if (loading) {
-    return <div>Loading...</div>
+    return (
+      <div className="h-full w-full flex justify-center items-center text-3xl">
+        <Icons.logo className=" animate-spin h-10 w-10" />
+      </div>
+    )
   }
 
   return (
     <DashboardShell>
-      <DashboardHeader heading="Sites" text="Create and manage sites.">
-        {/* Add a button for creating sites, and call `handleSiteCreated` when successful */}
-      </DashboardHeader>
+      <DashboardHeader
+        heading="Sites"
+        text="Create and manage sites."
+      ></DashboardHeader>
       <div>
         {sites?.length ? (
           <div className="divide-y divide-border rounded-md border">
