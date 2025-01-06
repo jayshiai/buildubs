@@ -63,6 +63,7 @@ const DeployButton = () => {
       } = await supabase.auth.getUser()
       const data = await getSites(user.id)
       if (data.length === 0) {
+        setIsDeploying(false)
         return
       }
 
@@ -168,20 +169,7 @@ const DeployButton = () => {
             </AlertDialogDescription>
           </AlertDialogHeader>
 
-          {sites?.length == 0 ? (
-            <div className="p-4">
-              <Input
-                type="text"
-                placeholder="Enter domain name"
-                value={selectedDomain}
-                onChange={(e) => setSelectedDomain(e.target.value)}
-                className="input"
-              />
-              {domainError && (
-                <p className=" text-destructive text-sm mt-2">{domainError}</p>
-              )}
-            </div>
-          ) : (
+          {sites?.length == 0 ? null : (
             <>
               <RadioGroup
                 onValueChange={(value) => {
@@ -201,22 +189,28 @@ const DeployButton = () => {
                   </div>
                 ))}
               </RadioGroup>
-              <Button
-                variant="outline"
-                onClick={() => setNewDomain(true)}
-                className="w-[170px]"
-              >
-                <CirclePlus className="h-4 w-4 mr-2" />
-                Add new domain
-              </Button>
             </>
           )}
+          <Button
+            variant="outline"
+            onClick={() => setNewDomain(true)}
+            className="w-[170px]"
+          >
+            <CirclePlus className="h-4 w-4 mr-2" />
+            Add new domain
+          </Button>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={() => setIsDialogOpen(false)}>
               Cancel
             </AlertDialogCancel>
             <Button
-              onClick={() => handleDeploy(selectedDomain)}
+              onClick={() => {
+                if (sites.length == 0) {
+                  handleDomainSelect()
+                } else {
+                  handleDeploy(selectedDomain)
+                }
+              }}
               disabled={isDeploying || !selectedDomain}
               className="gap-2"
             >
