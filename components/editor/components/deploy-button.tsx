@@ -107,7 +107,11 @@ const DeployButton = () => {
     setDomainError("")
     setIsDeploying(true)
     console.log("Selected domain:", selectedDomain)
-    if (selectedDomain == "ui" || selectedDomain == "cy") {
+    if (
+      selectedDomain == "ui" ||
+      selectedDomain == "cy" ||
+      selectedDomain == "www"
+    ) {
       setDomainError(
         "This domain is reserved. Please choose a different domain."
       )

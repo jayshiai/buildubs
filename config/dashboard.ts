@@ -7,6 +7,10 @@ export const dashboardConfig: DashboardConfig = {
       href: "/docs",
     },
     {
+      title: "Builder",
+      href: "/builder",
+    },
+    {
       title: "Support",
       href: "/support",
       disabled: true,
