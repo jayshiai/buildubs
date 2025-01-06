@@ -69,6 +69,7 @@ const DeployButton = () => {
 
       console.log("Sites:", data)
       setSites(data)
+      setSelectedDomain(data[0].domain)
       setIsDeploying(false)
     }
 
