@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { createClient } from "@/utils/supabase/client"
 import { useEditor } from "@craftjs/core"
-import { Loader2 } from "lucide-react"
+import { set } from "date-fns"
+import { CirclePlus, Loader2 } from "lucide-react"
 import LZUTF8 from "lzutf8"
 
 import {
@@ -9,6 +10,7 @@ import {
   deployDataForNewDomain,
   insertDomainToDatabase,
 } from "@/lib/editorUtils/deploy"
+import { getSites } from "@/lib/session"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,6 +24,8 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import {
   Tooltip,
   TooltipContent,
@@ -36,6 +40,8 @@ const DeployButton = () => {
   const [selectedDomain, setSelectedDomain] = useState("")
   const [domainError, setDomainError] = useState("")
   const [isDeploying, setIsDeploying] = useState(false)
+  const [newDomain, setNewDomain] = useState(false)
+  const [sites, setSites] = useState([])
   const supabase = createClient()
   useEffect(() => {
     const checkUser = async () => {
@@ -48,14 +54,40 @@ const DeployButton = () => {
     checkUser()
   }, [supabase])
 
-  const handleDeploy = async () => {
+  useEffect(() => {
+    const fetchSites = async () => {
+      setIsDeploying(true)
+      console.log("Fetching sites")
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+      const data = await getSites(user.id)
+      if (data.length === 0) {
+        return
+      }
+
+      console.log("Sites:", data)
+      setSites(data)
+      setIsDeploying(false)
+    }
+
+    if (isLoggedIn) {
+      fetchSites()
+    }
+  }, [isLoggedIn])
+
+  const handleDeploy = async (currentDomain: string) => {
     setIsDeploying(true)
     const serializedData = query.serialize()
-    console.log("Serialized data:", serializedData)
+    // console.log("Serialized data:", serializedData)
     const compressedData = LZUTF8.compress(JSON.stringify(serializedData), {
       outputEncoding: "Base64",
     })
-    const domain = await deployDataForNewDomain(supabase, compressedData)
+    const domain = await deployDataForNewDomain(
+      supabase,
+      compressedData,
+      currentDomain
+    )
     setIsDeploying(false)
     if (!domain) {
       setIsDialogOpen(true) // Show the dialog if domain is not found
@@ -64,6 +96,8 @@ const DeployButton = () => {
 
     // Proceed with deployment using the found domain
     console.log("Domain found, deploying data")
+    setSites([...sites, { domain }])
+    setIsDialogOpen(false)
     // Add your deployment logic here
   }
 
@@ -97,8 +131,9 @@ const DeployButton = () => {
       return
     }
     setIsDialogOpen(false)
+    setNewDomain(false)
 
-    handleDeploy()
+    handleDeploy(selectedDomain)
   }
   return (
     <>
@@ -110,7 +145,7 @@ const DeployButton = () => {
                 isLoggedIn ? "gap-2" : "gap-2 opacity-50  cursor-not-allowed"
               }
               onClick={() => {
-                handleDeploy()
+                setIsDialogOpen(true)
               }}
               disabled={isDeploying}
             >
@@ -129,9 +164,78 @@ const DeployButton = () => {
           <AlertDialogHeader>
             <AlertDialogTitle>Select a Domain</AlertDialogTitle>
             <AlertDialogDescription>
-              Please enter a unique domain name for your deployment.
+              Choose a domain to deploy your site.
             </AlertDialogDescription>
           </AlertDialogHeader>
+
+          {sites?.length == 0 ? (
+            <div className="p-4">
+              <Input
+                type="text"
+                placeholder="Enter domain name"
+                value={selectedDomain}
+                onChange={(e) => setSelectedDomain(e.target.value)}
+                className="input"
+              />
+              {domainError && (
+                <p className=" text-destructive text-sm mt-2">{domainError}</p>
+              )}
+            </div>
+          ) : (
+            <>
+              <RadioGroup
+                onValueChange={(value) => {
+                  console.log("Selected domain:", value)
+                  setSelectedDomain(value)
+                }}
+                className="flex flex-wrap gap-2 p-4"
+                defaultValue={sites[0].domain}
+              >
+                {sites.map((site) => (
+                  <div
+                    key={site.domain}
+                    className="flex items-center space-x-2 w-[100px] border py-2 px-1 rounded-lg"
+                  >
+                    <RadioGroupItem value={site.domain} id={site.domain} />
+                    <Label htmlFor={site.domain}>{site.domain}</Label>
+                  </div>
+                ))}
+              </RadioGroup>
+              <Button
+                variant="outline"
+                onClick={() => setNewDomain(true)}
+                className="w-[170px]"
+              >
+                <CirclePlus className="h-4 w-4 mr-2" />
+                Add new domain
+              </Button>
+            </>
+          )}
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setIsDialogOpen(false)}>
+              Cancel
+            </AlertDialogCancel>
+            <Button
+              onClick={() => handleDeploy(selectedDomain)}
+              disabled={isDeploying || !selectedDomain}
+              className="gap-2"
+            >
+              Submit
+              <Loader2 className={isDeploying ? "animate-spin" : "hidden"} />
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={newDomain} onOpenChange={setNewDomain}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>New Domain</AlertDialogTitle>
+            <AlertDialogDescription>
+              Choose a unique domain to deploy your site.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+
           <div className="p-4">
             <Input
               type="text"
@@ -144,12 +248,13 @@ const DeployButton = () => {
               <p className=" text-destructive text-sm mt-2">{domainError}</p>
             )}
           </div>
+
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setIsDialogOpen(false)}>
+            <AlertDialogCancel onClick={() => setNewDomain(false)}>
               Cancel
             </AlertDialogCancel>
             <Button
-              onClick={handleDomainSelect}
+              onClick={() => handleDomainSelect()}
               disabled={isDeploying || !selectedDomain}
               className="gap-2"
             >

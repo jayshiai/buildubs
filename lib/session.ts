@@ -4,14 +4,14 @@ import { createClient } from "@/utils/supabase/client"
 
 export async function getCurrentUser() {
   const supabase = createClient();
-  const {data : { session }} = await (await supabase).auth.getSession();
+  const {data : { session }} = await supabase.auth.getSession();
 
   return session?.user
 }
 
 export async function getSites(userId: string) {
   const supabase = createClient();
-  const { data, error } = await (await supabase).from('domains').select('domain').eq('user_id', userId);
+  const { data, error } = await  supabase.from('domains').select('domain').eq('user_id', userId);
 
   if (error) {
     console.error("Error fetching sites:", error);
@@ -21,5 +21,6 @@ export async function getSites(userId: string) {
   if(data.length === 0) {
     return [];
   }
-  return [{id: data[0].domain}];
+  // console.log("Data", data);
+  return data;
 }

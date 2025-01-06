@@ -7,15 +7,15 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { PostOperations } from "@/components/post-operations"
 
 interface Post {
-  id: string
+  domain: string
 }
 
 interface PostItemProps {
-  post: Pick<Post, "id">
+  post: Pick<Post, "domain">
 }
 
 export function PostItem({ post }: PostItemProps) {
-  const [domain, setDomain] = useState(post.id)
+  const [domain, setDomain] = useState(post.domain)
   if (!domain) return null
   return (
     <div className="flex items-center justify-between p-4">
@@ -27,7 +27,11 @@ export function PostItem({ post }: PostItemProps) {
           {domain}
         </Link>
       </div>
-      <PostOperations post={{ id: domain }} setDoamin={setDomain} />
+      <PostOperations
+        post={{ id: domain }}
+        domain={domain}
+        setDomain={setDomain}
+      />
     </div>
   )
 }

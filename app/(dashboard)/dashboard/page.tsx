@@ -27,6 +27,7 @@ export default function DashboardPage() {
       const sites = await getSites(user.id)
       setSites(sites)
       setLoading(false)
+      console.log("Sites", sites)
     }
 
     fetchData()
@@ -50,7 +51,7 @@ export default function DashboardPage() {
         {sites?.length ? (
           <div className="divide-y divide-border rounded-md border">
             {sites.map((site) => (
-              <PostItem key={site.id} post={site} />
+              <PostItem key={site.domain} post={site} />
             ))}
           </div>
         ) : (

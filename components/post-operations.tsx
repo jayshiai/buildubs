@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import { createClient } from "@/utils/supabase/client"
 import { Loader2 } from "lucide-react"
 
@@ -32,14 +33,25 @@ import { Icons } from "@/components/icons"
 
 async function deleteSite(postId: string) {
   const supabase = createClient()
-  const sess = await supabase.auth.getSession()
-  const userId = sess?.data?.session?.user?.id
   const { data, error } = await supabase
     .from("domains")
     .delete()
-    .eq("user_id", userId)
+    .eq("domain", postId)
 
   if (error) {
+    toast({
+      title: "Something went wrong.",
+      description: "Your site was not deleted. Please try again.",
+      variant: "destructive",
+    })
+  }
+
+  const { data: deletedData, error: deletedError } = await supabase
+    .from("deployed_data")
+    .delete()
+    .eq("domain", postId)
+
+  if (deletedError) {
     toast({
       title: "Something went wrong.",
       description: "Your site was not deleted. Please try again.",
@@ -56,10 +68,15 @@ interface Post {
 
 interface PostOperationsProps {
   post: Pick<Post, "id">
-  setDoamin: (domain: string) => void
+  domain: string
+  setDomain: (domain: string) => void
 }
 
-export function PostOperations({ post, setDoamin }: PostOperationsProps) {
+export function PostOperations({
+  post,
+  domain,
+  setDomain,
+}: PostOperationsProps) {
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false)
 
@@ -92,15 +109,20 @@ export function PostOperations({ post, setDoamin }: PostOperationsProps) {
 
     console.log("Inserting domain to database")
 
-    const updated = await updateDomainToDatabase(supabase, selectedDomain)
+    const updated = await updateDomainToDatabase(
+      supabase,
+      selectedDomain,
+      domain
+    )
 
     if (!updated) {
       setDomainError("Error updating domain")
+      setIsDeploying(false)
       return
     }
     setIsDeploying(false)
     setIsDialogOpen(false)
-    setDoamin(selectedDomain)
+    setDomain(selectedDomain)
   }
   return (
     <>
@@ -146,8 +168,14 @@ export function PostOperations({ post, setDoamin }: PostOperationsProps) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem>
+            <Link href={`/builder/${post.id}`}>
+              <div className="w-full">Edit</div>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>
             <div onClick={() => setIsDialogOpen(true)} className="w-full">
-              Edit
+              Change Domain
             </div>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -181,7 +209,7 @@ export function PostOperations({ post, setDoamin }: PostOperationsProps) {
                 if (deleted) {
                   setIsDeleteLoading(false)
                   setShowDeleteAlert(false)
-                  setDoamin(null)
+                  setDomain(null)
                 }
               }}
               className="bg-red-600 focus:ring-red-600 bg-destructive"
