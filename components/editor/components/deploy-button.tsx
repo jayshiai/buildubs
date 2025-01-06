@@ -176,13 +176,13 @@ const DeployButton = () => {
                   console.log("Selected domain:", value)
                   setSelectedDomain(value)
                 }}
-                className="flex flex-wrap gap-2 p-4"
+                className="flex flex-wrap gap-2 "
                 defaultValue={sites[0].domain}
               >
                 {sites.map((site) => (
                   <div
                     key={site.domain}
-                    className="flex items-center space-x-2 w-[100px] border py-2 px-1 rounded-lg"
+                    className="flex items-center space-x-2 min-w-[100px] border p-2 rounded-lg"
                   >
                     <RadioGroupItem value={site.domain} id={site.domain} />
                     <Label htmlFor={site.domain}>{site.domain}</Label>
